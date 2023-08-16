@@ -1,1 +1,1 @@
-# e-shopy
+# e-shopy : e-commerce web app for cloths
