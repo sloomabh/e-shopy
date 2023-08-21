@@ -71,13 +71,16 @@ userSchema.methods.isPasswordMatched = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-//dswdw
+// For forget password token
 userSchema.methods.createPasswordResetToken = async function () {
+  //geretae random token 32 bit
   const resettoken = crypto.randomBytes(32).toString("hex");
+  // hash that token and store it in database
   this.passwordResetToken = crypto
     .createHash("sha256")
     .update(resettoken)
     .digest("hex");
+  //give it an expirision time limite
   this.passwordResetExpires = Date.now() + 30 * 60 * 1000; // 10 minutes
   return resettoken;
 };

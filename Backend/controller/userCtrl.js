@@ -5,34 +5,35 @@ const { generateRefreshToken } = require("../config/refreshtoken");
 const validateMongoDbId = require("../utils/validateMongodbId");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
+const sendEmail = require("./emailCtrl");
 
-// Create a User ----------------------------------------------
+// Create a User ***************************************************************************
 
 const createUser = asyncHandler(async (req, res) => {
   /**
-   * TODO:Get the email from req.body
+   * Get the email from req.body
    */
   const email = req.body.email;
   /**
-   * TODO:With the help of email find the user exists or not
+   With the help of email find the user exists or not
    */
   const findUser = await User.findOne({ email: email });
 
   if (!findUser) {
     /**
-     * TODO:if user not found user create a new user
+     if user not found user create a new user
      */
     const newUser = await User.create(req.body);
     res.json(newUser);
   } else {
     /**
-     * TODO:if user found then thow an error: User already exists
+     if user found then thow an error: User already exists
      */
     throw new Error("User Already Exists");
   }
 });
 
-// Login a user
+// Login a user***************************************************************************
 const loginUserCtrl = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   // console.log(email, password);
@@ -65,7 +66,7 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   }
 });
 
-// handle refresh token
+// handle refresh token***************************************************************
 
 const handleRefreshToken = asyncHandler(async (req, res) => {
   const cookie = req.cookies;
@@ -84,7 +85,7 @@ const handleRefreshToken = asyncHandler(async (req, res) => {
   });
 });
 
-// logout functionality
+// logout functionality********************************************************
 
 const logout = asyncHandler(async (req, res) => {
   const cookie = req.cookies;
@@ -111,7 +112,7 @@ const logout = asyncHandler(async (req, res) => {
   res.sendStatus(204); // forbidden
 });
 
-// Get all users
+// Get all users***********************************************************************
 
 const getallUser = asyncHandler(async (req, res) => {
   try {
@@ -122,7 +123,7 @@ const getallUser = asyncHandler(async (req, res) => {
   }
 });
 
-// Get a single user
+// Get a single user *****************************************************************
 
 const getaUser = asyncHandler(async (req, res) => {
   //or  const { id } = req.params;  but we add user to req after athentication for better wotk flow later
@@ -139,7 +140,7 @@ const getaUser = asyncHandler(async (req, res) => {
   }
 });
 
-// Delete a single user
+// Delete a single user *************************************************************
 
 const deleteaUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -155,7 +156,7 @@ const deleteaUser = asyncHandler(async (req, res) => {
   }
 });
 
-// Update a user
+// Update a user*********************************************************************
 
 const updatedUser = asyncHandler(async (req, res) => {
   const { id } = req.user;
@@ -181,7 +182,7 @@ const updatedUser = asyncHandler(async (req, res) => {
   }
 });
 
-//Block user
+//Block user *****************************************************************************
 const blockUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongoDbId(id);
@@ -202,7 +203,7 @@ const blockUser = asyncHandler(async (req, res) => {
   }
 });
 
-// Unblock user
+// Unblock user ************************************************************
 const unblockUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongoDbId(id);
@@ -224,6 +225,65 @@ const unblockUser = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
+// UPDATE PASSWORD /**************************************************************** */
+const updatePassword = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { password } = req.body;
+  validateMongoDbId(_id);
+  const user = await User.findById(_id);
+  // TODO  Check if POSTed current password is correct
+  /*  if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
+    return next(new AppError('Your current password is wrong.', 401));
+  } */
+  if (password) {
+    user.password = password;
+    const updatedPassword = await user.save();
+    res.json(updatedPassword);
+  } else {
+    res.json(user);
+  }
+});
+
+// FORGOT PASSWORD   **************************************************************************
+const forgotPasswordToken = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) throw new Error("User not found with this email");
+  try {
+    const token = await user.createPasswordResetToken();
+    await user.save();
+    const resetURL = `Hi, Please follow this link to reset Your Password. This link is valid till 10 minutes from now. <a href='http://localhost:5000/api/user/reset-password/${token}'>Click Here</>`;
+    const data = {
+      to: email,
+      text: "Hey User",
+      subject: "Forgot Password Link",
+      html: resetURL,
+    };
+    sendEmail(data);
+    res.json(token);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+// RESET PASSWORD ********************************************************************************
+const resetPassword = asyncHandler(async (req, res) => {
+  const { password } = req.body;
+  const { token } = req.params;
+  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+  if (!user) throw new Error(" Token Expired, Please try again later");
+  user.password = password;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  await user.save();
+  res.json(user);
+});
+
 module.exports = {
   createUser,
   loginUserCtrl,
@@ -235,4 +295,7 @@ module.exports = {
   unblockUser,
   handleRefreshToken,
   logout,
+  updatePassword,
+  forgotPasswordToken,
+  resetPassword,
 };
