@@ -15,10 +15,10 @@ const router = express.Router();
 
 router.post("/", authMiddleware, isAdmin, createBlog);
 router.put(
-  "/upload/:id",
+  "/upload-images/:id",
   authMiddleware,
   isAdmin,
-  uploadPhoto.array("images", 2),
+  uploadPhoto.array("images", 10),
   blogImgResize,
   uploadImages
 );

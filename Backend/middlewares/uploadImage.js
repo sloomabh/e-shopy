@@ -2,6 +2,8 @@ const multer = require("multer");
 const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
+
+// there are 2 type of storage  ( disk storage and memory storage )
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, "../public/images/"));
@@ -20,12 +22,14 @@ const multerFilter = (req, file, cb) => {
   }
 };
 
+// Upload image *******************************************
 const uploadPhoto = multer({
   storage: storage,
   fileFilter: multerFilter,
   limits: { fileSize: 1000000 },
 });
 
+// Image resize(product)  ******************************************
 const productImgResize = async (req, res, next) => {
   if (!req.files) return next();
   await Promise.all(
@@ -41,6 +45,7 @@ const productImgResize = async (req, res, next) => {
   next();
 };
 
+// Image resize (blog) ******************************************
 const blogImgResize = async (req, res, next) => {
   if (!req.files) return next();
   await Promise.all(
