@@ -99,6 +99,7 @@ const getAllProduct = asyncHandler(async (req, res) => {
       if (skip >= productCount) throw new Error("This Page does not exists");
     }
     const product = await query;
+
     res.json(product);
   } catch (error) {
     throw new Error(error);
@@ -203,6 +204,7 @@ const {
   cloudinaryUploadImg,
   cloudinaryDeleteImg,
 } = require("../utils/cloudinary");
+const fs = require("fs");
 
 const uploadImages = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -216,6 +218,7 @@ const uploadImages = asyncHandler(async (req, res) => {
       const newpath = await uploader(path);
       console.log(newpath);
       urls.push(newpath);
+      fs.unlinkSync(path);
     }
     const findProduct = await Product.findByIdAndUpdate(
       id,
