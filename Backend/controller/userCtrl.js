@@ -324,11 +324,9 @@ const resetPassword = asyncHandler(async (req, res) => {
 
 //Get wishlist *********************************************************
 const getWishlist = asyncHandler(async (req, res) => {
-  const { id } = req.user;
-  console.log("saliiiiiiim");
+  const { _id } = req.user;
   try {
-    const findUser = await User.findById(id).populate("whishlist");
-
+    const findUser = await User.findById(_id).populate("wishlist");
     res.json(findUser);
   } catch (error) {
     throw new Error(error);
@@ -575,4 +573,6 @@ module.exports = {
   getWishlist,
   saveAddress,
   userCart,
+  getUserCart,
+  emptyCart,
 };
