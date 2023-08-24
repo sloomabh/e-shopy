@@ -54,12 +54,6 @@ var productSchema = new mongoose.Schema(
     },
   },
   {
-    toJSON: {
-      virtuals: true,
-    },
-    toObject: {
-      virtuals: true,
-    },
     timestamps: true,
   }
 );

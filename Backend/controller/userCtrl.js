@@ -411,7 +411,9 @@ const getUserCart = asyncHandler(async (req, res) => {
 // empty cart  ******************************************************************
 const emptyCart = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  validateMongoDbId(_id);
+  console.log(_id);
+  //validateMongoDbId(_id);
+
   try {
     const user = await User.findOne({ _id });
     const cart = await Cart.findOneAndRemove({ orderby: user._id });
@@ -426,6 +428,7 @@ const applyCoupon = asyncHandler(async (req, res) => {
   const { coupon } = req.body;
   const { _id } = req.user;
   validateMongoDbId(_id);
+
   const validCoupon = await Coupon.findOne({ name: coupon });
   if (validCoupon === null) {
     throw new Error("Invalid Coupon");
@@ -484,6 +487,7 @@ const createOrder = asyncHandler(async (req, res) => {
       };
     });
     const updated = await Product.bulkWrite(update, {});
+    console.log(userCart.products);
     res.json({ message: "success" });
   } catch (error) {
     throw new Error(error);
@@ -575,4 +579,10 @@ module.exports = {
   userCart,
   getUserCart,
   emptyCart,
+  applyCoupon,
+  createOrder,
+  getAllOrders,
+  getOrders,
+  getOrderByUserId,
+  updateOrderStatus,
 };
