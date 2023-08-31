@@ -125,7 +125,7 @@ const Footer = () => {
       </footer>
       <footer className="py-3">
         <div className="container-xxl">
-          <div className="row border border-primary">
+          <div className="row ">
             <div className="col-12">
               <p className="text-center mb-0 text-white">
                 &copy; {new Date().getFullYear()} ; Powred by Developper's
