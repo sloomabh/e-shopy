@@ -21,17 +21,17 @@ const Header = () => {
           </div>
         </div>
       </header>
-      <header className="header-upper py-3">
+      <header className="header-upper py-2">
         <div className="container-xxl ">
           <div className="row align-items ">
-            <div className="col-2">
+            <div className="col-3">
               <h1>
                 <Link className="text-white" to="/">
-                  SAlim ZONE.
+                  TechZONE.
                 </Link>
               </h1>
             </div>
-            <div className="col-5">
+            <div className="col-4">
               <div className="input-group ">
                 <input
                   type="text"
@@ -97,7 +97,7 @@ const Header = () => {
           </div>
         </div>
       </header>
-      <header className="header-bottom py-3">
+      <header className="header-bottom py-2">
         <div className="container-xxl">
           <div className="row">
             <div className="col-12">
