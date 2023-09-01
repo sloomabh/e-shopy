@@ -6,7 +6,7 @@ const Meta = ({ title }: MetaProps) => {
   return (
     <Helmet>
       <meta charSet="utf-8" />
-      <title>Our Store</title>
+      <title>{title}</title>
     </Helmet>
   )
 }

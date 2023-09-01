@@ -1,10 +1,17 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import "./ProductCard-style.css"
 import ReactStars from "react-rating-stars-component"
 
-const ProductCard = () => {
+type ProductCardProps = {
+  grid: number
+}
+const ProductCard = ({ grid }: ProductCardProps) => {
+  let location = useLocation()
+  /*  console.log(uselocation) */
   return (
-    <div className="col-3">
+    <div
+      className={`${location.pathname === "/store" ? `gr-${grid}` : "col-3"}`}
+    >
       <div className="product-card position-relative">
         <div className="wishlist-icon position-absolute">
           <Link to="/">
@@ -35,6 +42,11 @@ const ProductCard = () => {
             value={3}
             activeColor="#ffd700"
           />
+          <p className={`description ${grid === 12 ? "d-block" : "d-none"}`}>
+            the main body of matter in a manuscript, book, newspaper, etc.,the
+            original words of an author or speaker, as opposed to a translation,
+            paraphrase, commentary, or the like:
+          </p>
           <p className="price">$100.00</p>
         </div>
         <div className="action-bar position-absolute">
