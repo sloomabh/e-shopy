@@ -3,7 +3,7 @@ import "./ProductCard-style.css"
 import ReactStars from "react-rating-stars-component"
 
 type ProductCardProps = {
-  grid: number
+  grid?: number
 }
 const ProductCard = ({ grid }: ProductCardProps) => {
   let location = useLocation()
@@ -12,9 +12,9 @@ const ProductCard = ({ grid }: ProductCardProps) => {
     <div
       className={`${location.pathname === "/store" ? `gr-${grid}` : "col-3"}`}
     >
-      <div className="product-card position-relative">
+      <Link to=":id" className="product-card position-relative">
         <div className="wishlist-icon position-absolute">
-          <Link to="/">
+          <Link to="">
             <img src="./src/images/wish.svg" alt="wishlist" />
           </Link>
         </div>
@@ -62,7 +62,7 @@ const ProductCard = ({ grid }: ProductCardProps) => {
             </Link>
           </div>
         </div>
-      </div>
+      </Link>
     </div>
   )
 }

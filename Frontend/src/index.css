@@ -122,3 +122,11 @@ a {
   color: white;
 }
 /*  signin   and forgot password pages  ends  */
+
+/* For all Policy Pages  */
+.policy {
+  background-color: white;
+  padding: 30px;
+}
+
+/* all policy pages ends*/
