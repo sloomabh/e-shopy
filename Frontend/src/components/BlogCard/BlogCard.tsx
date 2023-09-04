@@ -13,8 +13,8 @@ const BlogCard = () => {
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard .
         </p>
-        <Link to="/" className="button">
-          Read me
+        <Link to="/blog/:id" className="button">
+          Read More
         </Link>
       </div>
     </div>

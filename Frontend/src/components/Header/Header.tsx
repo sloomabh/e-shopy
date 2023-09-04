@@ -50,7 +50,7 @@ const Header = () => {
                 <div>
                   <Link
                     className="d-flex align-items-center gap-10 text-white"
-                    to="/"
+                    to="/compare-product"
                   >
                     <img src="./src/images/compare.svg" alt="compare" />
                     <p className="mb-0">
@@ -61,7 +61,7 @@ const Header = () => {
                 <div>
                   <Link
                     className="d-flex align-items-center gap-10 text-white"
-                    to="/"
+                    to="/wishlist"
                   >
                     <img src="./src/images/wishlist.svg" alt="whishlist" />
                     <p className="mb-0">
@@ -72,7 +72,7 @@ const Header = () => {
                 <div>
                   <Link
                     className="d-flex align-items-center gap-10 text-white"
-                    to="/"
+                    to="/login"
                   >
                     <img src="./src/images/user.svg" alt="user" />
                     <p className="mb-0">
@@ -83,7 +83,7 @@ const Header = () => {
                 <div>
                   <Link
                     className="d-flex align-items-center gap-10 text-white "
-                    to="/"
+                    to="/cart"
                   >
                     <img src="./src/images/cart.svg" alt="cart" />
                     <div className="d-flex flex-column">

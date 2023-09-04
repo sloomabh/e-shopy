@@ -34,6 +34,11 @@ a {
   border-color: inherit;
 }
 
+/* Home wrapper 2  */
+.home-wrapper-2 {
+  background-color: var(--color-f5f5f7);
+}
+/* Home wrapper 2   ends*/
 .gap-5 {
   gap: 5px;
 }
@@ -73,3 +78,47 @@ a {
   font-weight: 500;
   margin-bottom: 30px;
 }
+
+/* for signin   and forgot password pages*/
+.auth-card {
+  padding: 20px;
+  background-color: white;
+  width: 500px;
+  margin: 30px auto;
+}
+
+.auth-card h3 {
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--color-777777);
+}
+.auth-card p {
+  font-size: 13px;
+  color: var(--color-777777);
+}
+
+.auth-card .form-control {
+  height: 50px;
+  background-color: var(--color-f5f5f7);
+  color: var(--color-777777);
+  font-size: 14px;
+  border-radius: 10px;
+  border-color: transparent;
+}
+
+.auth-card a {
+  color: var(--color-1c1c1b);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.auth-card .signup {
+  background-color: var(--color-febd69);
+  color: var(--color-131921);
+}
+
+.auth-card .signup:hover {
+  background-color: var(--color-131921);
+  color: white;
+}
+/*  signin   and forgot password pages  ends  */
