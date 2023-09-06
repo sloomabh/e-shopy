@@ -1,6 +1,13 @@
 import { Link, useLocation } from "react-router-dom"
 import "./ProductCard-style.css"
 import ReactStars from "react-rating-stars-component"
+import prodcompare from "/prodcompare.svg"
+import wish from "/wish.svg"
+import wishlist from "/wishlist.svg"
+import watch from "/watch.jpg"
+import watch2 from "/watch-01.jpg"
+import addcart from "/add-cart.svg"
+import view from "/view.svg"
 
 type ProductCardProps = {
   grid?: number
@@ -15,20 +22,12 @@ const ProductCard = ({ grid }: ProductCardProps) => {
       <Link to=":id" className="product-card position-relative">
         <div className="wishlist-icon position-absolute">
           <Link to="">
-            <img src="./src/images/wish.svg" alt="wishlist" />
+            <img src={wish} alt="wishlist" />
           </Link>
         </div>
         <div className="product-image">
-          <img
-            src="./src/images/watch.jpg"
-            alt="product_image"
-            className="img-fluid"
-          />
-          <img
-            src="./src/images/watch-01.jpg"
-            alt="product_image"
-            className="img-fluid"
-          />
+          <img src={watch} alt="product_image" className="img-fluid" />
+          <img src={watch2} alt="product_image" className="img-fluid" />
         </div>
         <div className="product-details">
           <h6 className="brabd">Havels</h6>
@@ -52,13 +51,13 @@ const ProductCard = ({ grid }: ProductCardProps) => {
         <div className="action-bar position-absolute">
           <div className="d-flex flex-column gap-15">
             <Link to="/">
-              <img src="./src/images/prodcompare.svg" alt="compare" />
+              <img src={prodcompare} alt="compare" />
             </Link>
             <Link to="/">
-              <img src="./src/images/view.svg" alt="view" />
+              <img src={view} alt="view" />
             </Link>
             <Link to="/">
-              <img src="./src/images/add-cart.svg" alt="addcart" />
+              <img src={view} alt="addcart" />
             </Link>
           </div>
         </div>
