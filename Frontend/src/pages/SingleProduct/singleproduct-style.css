@@ -19,17 +19,19 @@
   padding: 20px;
 }
 .main-product-image .js-imag-zoom__zoomed-image {
-  left: 230px !important;
+  left: 1200px !important;
   padding: 10px;
   background-color: white;
   border-radius: 10px;
+  z-index: 1000;
 }
 .main-product-details {
   padding: 20px;
+  background-color: white;
   border-radius: 10px;
 }
 .border-bottom {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
 .main-product-details h3 .title {
   font-size: 18px;
@@ -45,7 +47,29 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
-/******************************/
+.main-product-details a.review-btn,
+.t-review {
+  color: var(--color-777777);
+  font-size: 13px;
+}
+
+.product-heading {
+  font-size: 14px;
+  color: var(--color-1c1c1b);
+  margin-bottom: 0px;
+}
+.product-data {
+  font-size: 13px;
+  columns: var(--color-777777);
+  margin-bottom: 0px;
+}
+
+.main-product-details a {
+  font-size: 14px;
+  color: var(--color-777777);
+}
+
+/************************************************************/
 .description-wrapper h4,
 .reviews-wrapper h3 {
   font-size: 26px;

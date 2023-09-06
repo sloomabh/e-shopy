@@ -1,14 +1,27 @@
 import React, { useState } from "react"
+import { Link } from "react-router-dom"
 import Meta from "../../components/Meta"
 import BreadCrumb from "../../components/BreadCrumb"
 import ProductCard from "../../components/ProductCard/ProductCard"
 import ReactStars from "react-rating-stars-component"
 import "./singleproduct-style.css"
 import ReactImageZoom from "react-image-zoom"
+import Color from "../../components/Color/Color"
+import { TbGitCompare } from "react-icons/tb"
+import { AiOutlineHeart } from "react-icons/ai"
 
 //import { Link } from "react-router-dom"
 const SingleProduct = () => {
   const [orderedProduct, setorderdProduct] = useState<Boolean>(true)
+  const copyToClipboard = (text: string) => {
+    console.log("text", text)
+    var textField = document.createElement("textarea")
+    textField.innerText = text
+    document.body.appendChild(textField)
+    textField.select()
+    document.execCommand("copy")
+    textField.remove()
+  }
   //7:18:00
   const props = {
     width: 400,
@@ -60,7 +73,7 @@ const SingleProduct = () => {
                     Kids Headphones Bulk 10 Pack Multi colored For Students
                   </h3>
                 </div>
-                <div className="border-bottom">
+                <div className="border-bottom py-3">
                   <p className="price">$ 100</p>
                   <div className="d-flex align-items-center gap-10">
                     <ReactStars
@@ -70,7 +83,108 @@ const SingleProduct = () => {
                       value={3}
                       activeColor="#ffd700"
                     />
-                    <p className="mb-0">( 2 Reviews )</p>
+                    <p className="mb-0 t-review">( 2 Reviews )</p>
+                  </div>
+                  <a className="review-btn" href="#review">
+                    Write a review
+                  </a>
+                </div>
+                <div className="border-bottom py-3">
+                  <div className="d-flex gap-10 align-items-center my-2">
+                    <h3 className="product-heading">Type :</h3>
+                    <p className="product-data">Watch</p>
+                  </div>
+                  <div className="d-flex gap-10 align-items-center my-2">
+                    <h3 className="product-heading">Brand :</h3>
+                    <p className="product-data">Heavels</p>
+                  </div>
+                  <div className="d-flex gap-10 align-items-center my-2">
+                    <h3 className="product-heading">Category :</h3>
+                    <p className="product-data">Watch</p>
+                  </div>
+                  <div className="d-flex gap-10 align-items-center my-2">
+                    <h3 className="product-heading">Tags :</h3>
+                    <p className="product-data">watch</p>
+                  </div>
+                  <div className="d-flex gap-10 align-items-center my-2">
+                    <h3 className="product-heading">Availability :</h3>
+                    <p className="product-data">In Stock</p>
+                  </div>
+                  <div className="d-flex gap-10 flex-column mt-2 mb-3">
+                    <h3 className="product-heading">Size :</h3>
+                    <div className="d-flex flex-wrap gap-15">
+                      <span className="badge border bg-white text-dark border-decondary">
+                        S
+                      </span>
+                      <span className="badge border bg-white text-dark border-decondary">
+                        M
+                      </span>
+                      <span className="badge border bg-white text-dark border-decondary">
+                        L
+                      </span>
+                      <span className="badge border bg-white text-dark border-decondary">
+                        XL
+                      </span>
+                    </div>
+                  </div>
+                  <div className="d-flex gap-10  flex-column  mt-2 mb-3">
+                    <h3 className="product-heading">Color :</h3>
+                    <Color />
+                  </div>
+                  <div className="d-flex gap-15 flex-row  align-items-center mt-2 mb-3">
+                    <h3 className="product-heading ">Quantity :</h3>
+                    <div className="">
+                      <input
+                        type="number"
+                        name="number"
+                        min={1}
+                        max={10}
+                        className="form-control"
+                        style={{ width: "70px" }}
+                        defaultValue={1}
+                      />
+                    </div>
+                    <div className="d-flex  justify-content-center align-items-center gap-30 ms-5">
+                      <button className="button border-0" type="submit">
+                        Add To Cart
+                      </button>
+                      <button className="button signup">Buy It Now</button>
+                    </div>
+                  </div>
+                  <div className="d-flex gap-15 flex-row  align-items-center gap-15">
+                    <div>
+                      <a href="#">
+                        <TbGitCompare className="fs-4 me-2" />
+                        Add To Compare
+                      </a>
+                    </div>
+                    <div>
+                      <a href="#">
+                        <AiOutlineHeart className="fs-4 me-2" />
+                        Add To Wishlist
+                      </a>
+                    </div>
+                  </div>
+                  <div className="d-flex gap-10 align-items-center my-2">
+                    <h3 className="product-heading">Shipping & Returns :</h3>
+                    <p className="product-data">
+                      Free shipping and returns available on all orders! we ship
+                      all Japan domestic orders within
+                      <b className="py-2">5-10 business days!</b>
+                    </p>
+                  </div>
+                  <div className="d-flex gap-10 align-items-center my-2">
+                    <h3 className="product-heading">Copy Product Link :</h3>
+                    <a
+                      href="javascript:void(0);"
+                      onClick={() => {
+                        copyToClipboard(
+                          "https://media.wired.com/photos/64065938a358b3e8164ac998/2:3/w_1200,h_1800,c_limit/Nomad-DesignLab-Apple-Watch-Accessories-Gear.jpg",
+                        )
+                      }}
+                    >
+                      Copy Product Link
+                    </a>
                   </div>
                 </div>
               </div>
@@ -99,7 +213,7 @@ const SingleProduct = () => {
         <div className="container-xxl">
           <div className="row">
             <div className="col-12">
-              <h3>Reviews</h3>
+              <h3 id="review">Reviews</h3>
               <div className="review-inner-wrapper">
                 <div className="review-head d-flex justify-content-between">
                   <div>
@@ -196,3 +310,5 @@ const SingleProduct = () => {
 }
 
 export default SingleProduct
+
+/* zoom-img-7:54*/
