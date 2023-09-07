@@ -1,6 +1,11 @@
 import { NavLink, Link } from "react-router-dom"
 import { BsSearch } from "react-icons/bs"
 import "./Header-style.css"
+import compare from "/compare.svg"
+import wishlist from "/wishlist.svg"
+import user from "/user.svg"
+import cart from "/cart.svg"
+import menu from "/menu.svg"
 const Header = () => {
   return (
     <>
@@ -23,11 +28,11 @@ const Header = () => {
       </header>
       <header className="header-upper py-2">
         <div className="container-xxl ">
-          <div className="row align-items ">
-            <div className="col-3">
+          <div className="row align-items-center ">
+            <div className="col-3 ">
               <h1>
-                <Link className="text-white" to="/">
-                  TechZONE.
+                <Link className="text-white fs-2" to="/">
+                  Salimo TechZONE.
                 </Link>
               </h1>
             </div>
@@ -52,7 +57,7 @@ const Header = () => {
                     className="d-flex align-items-center gap-10 text-white"
                     to="/compare-product"
                   >
-                    <img src="./src/images/compare.svg" alt="compare" />
+                    <img src={compare} alt="compare" />
                     <p className="mb-0">
                       Compare <br /> Products
                     </p>
@@ -63,7 +68,7 @@ const Header = () => {
                     className="d-flex align-items-center gap-10 text-white"
                     to="/wishlist"
                   >
-                    <img src="./src/images/wishlist.svg" alt="whishlist" />
+                    <img src={wishlist} alt="whishlist" />
                     <p className="mb-0">
                       Favorite <br /> Wishlist
                     </p>
@@ -74,7 +79,7 @@ const Header = () => {
                     className="d-flex align-items-center gap-10 text-white"
                     to="/login"
                   >
-                    <img src="./src/images/user.svg" alt="user" />
+                    <img src={user} alt="user" />
                     <p className="mb-0">
                       Log In <br /> My account
                     </p>
@@ -85,7 +90,7 @@ const Header = () => {
                     className="d-flex align-items-center gap-10 text-white "
                     to="/cart"
                   >
-                    <img src="./src/images/cart.svg" alt="cart" />
+                    <img src={cart} alt="cart" />
                     <div className="d-flex flex-column">
                       <span className="badge bg-white text-dark">0</span>
                       <p className="mb-0">$ 500</p>
@@ -114,7 +119,7 @@ const Header = () => {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      <img src="./src/images/menu.svg" alt="menu" />
+                      <img src={menu} alt="menu" />
                       <span className="mx-3 d-inline-block ">
                         Shop Categories
                       </span>

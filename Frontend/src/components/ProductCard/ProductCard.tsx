@@ -3,7 +3,7 @@ import "./ProductCard-style.css"
 import ReactStars from "react-rating-stars-component"
 import prodcompare from "/prodcompare.svg"
 import wish from "/wish.svg"
-import wishlist from "/wishlist.svg"
+//import wishlist from "/wishlist.svg"
 import watch from "/watch.jpg"
 import watch2 from "/watch-01.jpg"
 import addcart from "/add-cart.svg"
@@ -21,9 +21,9 @@ const ProductCard = ({ grid }: ProductCardProps) => {
     >
       <Link to=":id" className="product-card position-relative">
         <div className="wishlist-icon position-absolute">
-          <Link to="">
+          <button className="border-0 bg-transparent">
             <img src={wish} alt="wishlist" />
-          </Link>
+          </button>
         </div>
         <div className="product-image">
           <img src={watch} alt="product_image" className="img-fluid" />
@@ -50,15 +50,15 @@ const ProductCard = ({ grid }: ProductCardProps) => {
         </div>
         <div className="action-bar position-absolute">
           <div className="d-flex flex-column gap-15">
-            <Link to="/">
+            <button className="border-0 bg-transparent">
               <img src={prodcompare} alt="compare" />
-            </Link>
-            <Link to="/">
+            </button>
+            <button className="border-0 bg-transparent">
               <img src={view} alt="view" />
-            </Link>
-            <Link to="/">
-              <img src={view} alt="addcart" />
-            </Link>
+            </button>
+            <button className="border-0 bg-transparent">
+              <img src={addcart} alt="addcart" />
+            </button>
           </div>
         </div>
       </Link>
