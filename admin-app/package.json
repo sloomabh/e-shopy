@@ -19,6 +19,7 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.1",
     "antd": "^5.0.6",
+    "@ant-design/icons": "latest",
     "axios": "^1.2.1",
     "formik": "^2.2.9",
     "react-dropzone": "^14.2.3",
