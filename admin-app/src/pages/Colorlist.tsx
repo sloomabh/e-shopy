@@ -27,6 +27,7 @@ const columns = [
     dataIndex: "staus",
   },
 ]
+
 const data1: Data1Type[] = []
 
 for (let i = 0; i < 46; i++) {
@@ -38,11 +39,11 @@ for (let i = 0; i < 46; i++) {
   })
 }
 
-const Bloglist = () => {
+const Colorlist = () => {
   return (
     <div>
       {" "}
-      <h3 className="mb-4 title">Bloglist</h3>
+      <h3 className="mb-4 title">Color list</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
@@ -58,4 +59,4 @@ const Bloglist = () => {
   )
 }
 
-export default Bloglist
+export default Colorlist

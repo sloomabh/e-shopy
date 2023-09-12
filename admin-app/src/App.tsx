@@ -10,7 +10,7 @@ import Bloglist from "./pages/Bloglist"
 import Blogcatlist from "./pages/Blogcatlist"
 import Orders from "./pages/Orders"
 import Customers from "./pages/Customers"
-import Colorlist from "./pages/Colotlist"
+import Colorlist from "./pages/Colorlist"
 import Categorylist from "./pages/Categorylist"
 import Brandlist from "./pages/Brandlist"
 import Productlist from "./pages/Productlist"
@@ -24,6 +24,7 @@ import Couponlist from "./pages/Couponlist"
 import AddCoupon from "./pages/AddCoupon"
 import ViewEnq from "./pages/ViewEnq"
 import ViewOrder from "./pages/ViewOrder"
+import Nomatch from "./pages/Nomatch"
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
           <Route path="list-product" element={<Productlist />} />
           <Route path="product" element={<Addproduct />} />
         </Route>
+        <Route path="*" element={<Nomatch />} />
       </Routes>
     </Router>
   )
