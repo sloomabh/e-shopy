@@ -40,7 +40,7 @@ const Addblog = () => {
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            Blog
+            Add Blog
           </button>
         </form>
       </div>

@@ -162,13 +162,13 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div className="mt-4">
+      <div className="mt-4 flex-grow-1">
         <h3 className="mb-5 title">Income Statics</h3>
         <div>
           <Column {...config} />
         </div>
       </div>
-      <div className="mt-4">
+      <div className="mt-4 flex-grow-1">
         <h3 className="mb-5 title">Recent Orders</h3>
         <div>
           <Table columns={columns} dataSource={data1} />
