@@ -26,6 +26,7 @@ app.use(morgan("dev")); // toget information in console log for each req : GET /
 app.use(bodyParser.json()); // we can send json object to client
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser()); //we can send cookies to client
+app.use(cors()); //se we can connect to the front end
 /******************************************************** */
 
 dbConnect();
