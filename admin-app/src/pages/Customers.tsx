@@ -1,13 +1,14 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Table } from "antd"
 import { AiFillDelete, AiOutlineEye } from "react-icons/ai"
-import { useDispatch, useSelector } from "react-redux"
+import { useAppDispatch, useAppSelector } from "../app/hooks"
+import { getUsers } from "../features/cutomers/customerSlice"
 
-interface Data1Type {
+interface DataTableType {
   key: number
   name: string
-  product: number
-  staus: string
+  email: string
+  mobile: string
 }
 const columns = [
   {
@@ -17,29 +18,38 @@ const columns = [
   {
     title: "Name",
     dataIndex: "name",
+    sorter: (a, b) => a.name.length - b.name.length,
   },
   {
-    title: "Product",
-    dataIndex: "product",
+    title: "Email",
+    dataIndex: "email",
   },
   {
-    title: "Status",
-    dataIndex: "staus",
+    title: "Mobile",
+    dataIndex: "mobile",
   },
 ]
 
-const data1: Data1Type[] = []
-
-for (let i = 0; i < 46; i++) {
-  data1.push({
-    key: i,
-    name: `Edward King ${i}`,
-    product: 32,
-    staus: `London, Park Lane no. ${i}`,
-  })
-}
-
 const Customers = () => {
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(getUsers())
+  }, [])
+  const customerstate = useAppSelector((state) => state.customer.customers)
+  // console.log(customerstate)
+
+  const data1: DataTableType[] = []
+  for (let i = 0; i < customerstate.length; i++) {
+    if (customerstate[i].role !== "admin") {
+      data1.push({
+        key: i + 1,
+        name: customerstate[i].firstname + " " + customerstate[i].lastname,
+        email: customerstate[i].email,
+        mobile: customerstate[i].mobile,
+      })
+    }
+  }
+
   return (
     <div>
       {" "}

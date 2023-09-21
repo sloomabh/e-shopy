@@ -1,35 +1,12 @@
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import authService from "./authServices"
-import { User } from "./UserType.dt"
+import { UserInput, UserDefautType } from "./UserType.dt"
 
-interface UserDefautState {
-  _id: null
-  firstname: null
-  lastname: null
-  email: null
-  mobile: null
-  token: null
-}
-interface InitialState {
-  user: UserDefautState
-  orders: []
-  isError: boolean
-  isLoading: boolean
-  isSuccess: boolean
-  message: any
-}
-
-const userDefautState: UserDefautState = {
-  _id: null,
-  firstname: null,
-  lastname: null,
-  email: null,
-  mobile: null,
-  token: null,
-}
+// Get User from local storage
+const getUserfromLocalStorage = localStorage.getItem("user")
 
 const initialState: InitialState = {
-  user: userDefautState,
+  user: getUserfromLocalStorage ? JSON.parse(getUserfromLocalStorage) : null,
   orders: [],
   isError: false,
   isLoading: false,
@@ -40,7 +17,7 @@ const initialState: InitialState = {
 // ACTIONS
 export const login = createAsyncThunk(
   "auth/login",
-  async (user: User, thunkAPI) => {
+  async (user: UserInput, thunkAPI) => {
     try {
       return await authService.login(user)
     } catch (error: any) {
@@ -48,6 +25,15 @@ export const login = createAsyncThunk(
     }
   },
 )
+
+interface InitialState {
+  user: UserDefautType | null
+  orders: []
+  isError: boolean
+  isLoading: boolean
+  isSuccess: boolean
+  message: any
+}
 
 // REDUCER
 export const authSlice = createSlice({
@@ -69,7 +55,7 @@ export const authSlice = createSlice({
       .addCase(login.rejected, (state, action: PayloadAction<any>) => {
         state.isError = true
         state.isSuccess = false
-        state.message = action.error
+        state.message = "Rejected"
         state.isLoading = false
       })
   },
