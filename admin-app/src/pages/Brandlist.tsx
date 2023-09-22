@@ -34,6 +34,18 @@ const columns = [
 ]
 
 const Brandlist = () => {
+  const [open, setOpen] = useState(false)
+  const [brandId, setbrandId] = useState("")
+
+  const showModal = (e: any) => {
+    setOpen(true)
+    setbrandId(e)
+  }
+
+  const hideModal = () => {
+    setOpen(false)
+  }
+
   const dispatch = useAppDispatch()
   useEffect(() => {
     //dispatch(resetState())

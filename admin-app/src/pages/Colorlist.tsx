@@ -1,13 +1,16 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Table } from "antd"
-import { AiFillDelete, AiOutlineEye } from "react-icons/ai"
-import { useDispatch, useSelector } from "react-redux"
+import { useAppDispatch, useAppSelector } from "../app/hooks"
+import { deleteAColor, getColors } from "../features/color/colorSlice"
+import { BiEdit } from "react-icons/bi"
+import { AiFillDelete } from "react-icons/ai"
+import { Link } from "react-router-dom"
+//import CustomModal from "../components/CustomModal"
 
 interface Data1Type {
   key: number
   name: string
-  product: number
-  staus: string
+  action: any
 }
 const columns = [
   {
@@ -19,27 +22,51 @@ const columns = [
     dataIndex: "name",
   },
   {
-    title: "Product",
-    dataIndex: "product",
-  },
-  {
-    title: "Status",
-    dataIndex: "staus",
+    title: "Action",
+    dataIndex: "action",
   },
 ]
 
-const data1: Data1Type[] = []
-
-for (let i = 0; i < 46; i++) {
-  data1.push({
-    key: i,
-    name: `Edward King ${i}`,
-    product: 32,
-    staus: `London, Park Lane no. ${i}`,
-  })
-}
-
 const Colorlist = () => {
+  const [open, setOpen] = useState(false)
+  const [colorId, setcolorId] = useState("")
+  const showModal = (e) => {
+    setOpen(true)
+    setcolorId(e)
+  }
+
+  const hideModal = () => {
+    setOpen(false)
+  }
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(getColors())
+  }, [])
+  const colorState = useAppSelector((state) => state.color.colors)
+
+  const data1: Data1Type[] = []
+  for (let i = 0; i < colorState.length; i++) {
+    data1.push({
+      key: i + 1,
+      name: colorState[i].title,
+      action: (
+        <>
+          <Link
+            to={`/admin/color/${colorState[i]._id}`}
+            className=" fs-3 text-danger"
+          >
+            <BiEdit />
+          </Link>
+          <button
+            className="ms-3 fs-3 text-danger bg-transparent border-0"
+            onClick={() => showModal(colorState[i]._id)}
+          >
+            <AiFillDelete />
+          </button>
+        </>
+      ),
+    })
+  }
   return (
     <div>
       {" "}
