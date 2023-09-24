@@ -1,13 +1,18 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Table } from "antd"
-import { AiFillDelete, AiOutlineEye } from "react-icons/ai"
-import { useDispatch, useSelector } from "react-redux"
+import { useAppDispatch, useAppSelector } from "../app/hooks"
+import { BiEdit } from "react-icons/bi"
+import { AiFillDelete } from "react-icons/ai"
+import { Link } from "react-router-dom"
+import { getOrders } from "../features/auth/authSlice"
 
 interface Data1Type {
   key: number
   name: string
-  product: number
-  staus: string
+  product: any
+  amount: number
+  date: string
+  action: any
 }
 const columns = [
   {
@@ -23,37 +28,58 @@ const columns = [
     dataIndex: "product",
   },
   {
-    title: "Status",
-    dataIndex: "staus",
+    title: "Amount",
+    dataIndex: "amount",
+  },
+  {
+    title: "Date",
+    dataIndex: "date",
+  },
+
+  {
+    title: "Action",
+    dataIndex: "action",
   },
 ]
-const data1: Data1Type[] = []
-
-for (let i = 0; i < 46; i++) {
-  data1.push({
-    key: i,
-    name: `Edward King ${i}`,
-    product: 32,
-    staus: `London, Park Lane no. ${i}`,
-  })
-}
 
 const Orders = () => {
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(getOrders())
+  }, [])
+  const orderState = useAppSelector((state) => state.auth.orders)
+
+  console.log(orderState)
+
+  const data1: Data1Type[] = []
+  for (let i = 0; i < orderState.length; i++) {
+    data1.push({
+      key: i + 1,
+      name: orderState[i].orderby.firstname,
+      product: (
+        <Link to={`/admin/order/${orderState[i].orderby._id}`}>
+          View Orders
+        </Link>
+      ),
+      amount: orderState[i].paymentIntent.amount,
+      date: new Date(orderState[i].createdAt).toLocaleString(),
+      action: (
+        <>
+          <Link to="/" className=" fs-3 text-danger">
+            <BiEdit />
+          </Link>
+          <Link className="ms-3 fs-3 text-danger" to="/">
+            <AiFillDelete />
+          </Link>
+        </>
+      ),
+    })
+  }
+
   return (
     <div>
-      {" "}
       <h3 className="mb-4 title">Orders</h3>
-      <div>
-        <Table columns={columns} dataSource={data1} />
-      </div>
-      {/*  <CustomModal
-        hideModal={hideModal}
-        open={open}
-        performAction={() => {
-          deleteEnq(enqId)
-        }}
-        title="Are you sure you want to delete this enquiry?"
-      /> */}
+      <div>{<Table columns={columns} dataSource={data1} />}</div>
     </div>
   )
 }
