@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit"
 import couponService from "./couponService"
+<<<<<<< HEAD
 import { CouponDefautState } from "./couponType"
 
 interface InitialState {
@@ -9,6 +10,10 @@ interface InitialState {
   isSuccess: boolean
   message: any
 }
+=======
+
+import { CouponDefautType } from "./couponType.dt"
+>>>>>>> f85a6b915460486d5c8ec55fd023ce5aca296822
 
 export const getAllCoupon = createAsyncThunk(
   "coupon/get-coupons",
@@ -62,6 +67,17 @@ export const updateACoupon = createAsyncThunk(
 )
 export const resetState = createAction("Reset_all")
 
+<<<<<<< HEAD
+=======
+interface InitialState {
+  coupons: CouponDefautType[]
+  isError: boolean
+  isLoading: boolean
+  isSuccess: boolean
+  message: any
+}
+
+>>>>>>> f85a6b915460486d5c8ec55fd023ce5aca296822
 const initialState: InitialState = {
   coupons: [],
   isError: false,
@@ -90,7 +106,11 @@ export const couponSlice = createSlice({
         state.isSuccess = false
         state.message = action.error
       })
+<<<<<<< HEAD
     /* .addCase(createCoupon.pending, (state) => {
+=======
+    /*.addCase(createCoupon.pending, (state) => {
+>>>>>>> f85a6b915460486d5c8ec55fd023ce5aca296822
         state.isLoading = true
       })
       .addCase(createCoupon.fulfilled, (state, action) => {

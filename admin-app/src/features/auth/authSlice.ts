@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import authService from "./authServices"
-import { UserInput, UserDefautType } from "./UserType.dt"
+import { UserInput, UserDefautType, OrdersDefautType } from "./UserType.dt"
 
 // Get User from local storage
 const getUserfromLocalStorage = localStorage.getItem("user")
@@ -26,9 +26,30 @@ export const login = createAsyncThunk(
   },
 )
 
+export const getOrders = createAsyncThunk(
+  "order/get-orders",
+  async (thunkAPI) => {
+    try {
+      return await authService.getOrders()
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  },
+)
+export const getOrderByUser = createAsyncThunk(
+  "order/get-order",
+  async (id, thunkAPI) => {
+    try {
+      return await authService.getOrder(id)
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  },
+)
+
 interface InitialState {
   user: UserDefautType | null
-  orders: []
+  orders: OrdersDefautType[]
   isError: boolean
   isLoading: boolean
   isSuccess: boolean
@@ -56,6 +77,38 @@ export const authSlice = createSlice({
         state.isError = true
         state.isSuccess = false
         state.message = "Rejected"
+        state.isLoading = false
+      })
+      .addCase(getOrders.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getOrders.fulfilled, (state, action) => {
+        state.isError = false
+        state.isLoading = false
+        state.isSuccess = true
+        state.orders = action.payload
+        state.message = "success"
+      })
+      .addCase(getOrders.rejected, (state, action) => {
+        state.isError = true
+        state.isSuccess = false
+        state.message = action.error
+        state.isLoading = false
+      })
+      .addCase(getOrderByUser.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getOrderByUser.fulfilled, (state, action) => {
+        state.isError = false
+        state.isLoading = false
+        state.isSuccess = true
+        state.orderbyuser = action.payload
+        state.message = "success"
+      })
+      .addCase(getOrderByUser.rejected, (state, action) => {
+        state.isError = true
+        state.isSuccess = false
+        state.message = action.error
         state.isLoading = false
       })
   },
