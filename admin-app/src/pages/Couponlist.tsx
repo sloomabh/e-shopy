@@ -4,11 +4,8 @@ import { BiEdit } from "react-icons/bi"
 import { AiFillDelete } from "react-icons/ai"
 import { Link } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
-<<<<<<< HEAD
 import { getAllCoupon } from "../features/coupon/couponSlice"
-=======
-import { deleteACoupon, getAllCoupon } from "../features/coupon/couponSlice"
->>>>>>> f85a6b915460486d5c8ec55fd023ce5aca296822
+
 //import CustomModal from "../components/CustomModal"
 
 interface Data1Type {
@@ -62,10 +59,6 @@ const Couponlist = () => {
     dispatch(getAllCoupon())
   }, [])
   const couponState = useAppSelector((state) => state.coupon.coupons)
-<<<<<<< HEAD
-=======
-
->>>>>>> f85a6b915460486d5c8ec55fd023ce5aca296822
   const data1: Data1Type[] = []
   for (let i = 0; i < couponState.length; i++) {
     data1.push({

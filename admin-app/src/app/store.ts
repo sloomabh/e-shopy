@@ -8,10 +8,7 @@ import pCategoryReducer from "../features/pcategory/pcategorySlice"
 import bCategoryReducer from "../features/bcategory/bcategorySlice"
 import blogReducer from "../features/blogs/blogSlice"
 import colorReducer from "../features/color/colorSlice"
-<<<<<<< HEAD
-=======
 import enquiryReducer from "../features/enquiry/enquirySlice"
->>>>>>> f85a6b915460486d5c8ec55fd023ce5aca296822
 import couponReducer from "../features/coupon/couponSlice"
 
 export const store = configureStore({
@@ -24,10 +21,7 @@ export const store = configureStore({
     bCategory: bCategoryReducer,
     blogs: blogReducer,
     color: colorReducer,
-<<<<<<< HEAD
-=======
     enquiry: enquiryReducer,
->>>>>>> f85a6b915460486d5c8ec55fd023ce5aca296822
     coupon: couponReducer,
   },
 })
