@@ -4,3 +4,5 @@ font-family: 'Roboto', sans-serif;
 libraries:
 - Ant Design Charts
 - Ant design
+- react widgets :  https://coreui.io/react/docs/components/widgets/
+- formiK with Yup :  https://formik.org/docs/api/useFormik

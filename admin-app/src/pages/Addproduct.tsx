@@ -15,7 +15,7 @@ import { getColors } from "../features/color/colorSlice"
 let schema = yup.object().shape({
   title: yup.string().required("Title is Required"),
   description: yup.string().required("Description is Required"),
-  /* price: yup.number().required("Price is Required"),
+  price: yup.number().required("Price is Required"),
   brand: yup.string().required("Brand is Required"),
   category: yup.string().required("Category is Required"),
   tags: yup.string().required("Tag is Required"),
@@ -23,12 +23,36 @@ let schema = yup.object().shape({
     .array()
     .min(1, "Pick at least one color")
     .required("Color is Required"),
-  quantity: yup.number().required("Quantity is Required"),*/
+  quantity: yup.number().required("Quantity is Required"),
 })
 
 const Addproduct = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const [color, setColor] = useState([])
+  const [images, setImages] = useState([])
+
+  useEffect(() => {
+    dispatch(getBrands())
+    dispatch(getCategories())
+    dispatch(getColors())
+  }, [])
+
+  const brandState = useAppSelector((state) => state.brand.brands)
+  const catState = useAppSelector((state) => state.pCategory.pCategories)
+  const colorState = useAppSelector((state) => state.color.colors)
+
+  const coloropt = []
+  colorState.forEach((i) => {
+    coloropt.push({
+      label: i.title,
+      value: i._id,
+    })
+  })
+  const handleColors = (e) => {
+    setColor(e)
+    console.log(color)
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -48,11 +72,6 @@ const Addproduct = () => {
     },
   })
 
-  const [desc, setDesc] = useState("")
-  const handelDesc = (e: any) => {
-    console.log(e)
-  }
-
   return (
     <div>
       <h3 className="mb-4 title">Add Product</h3>
@@ -69,7 +88,6 @@ const Addproduct = () => {
             onBlr={formik.handleBlur("title")}
             val={formik.values.title}
           />
-
           <div className="error">
             {formik.touched.title && formik.errors.title}
           </div>
@@ -82,53 +100,107 @@ const Addproduct = () => {
               value={formik.values.description}
             />
           </div>
+          <div className="error">
+            {formik.touched.description && formik.errors.description}
+          </div>
 
-          <div className="error"></div>
+          <CustomInput
+            type="number"
+            label="Enter Product Price"
+            name="price"
+            onChng={formik.handleChange("price")}
+            onBlr={formik.handleBlur("price")}
+            val={formik.values.price}
+          />
+          <div className="error">
+            {formik.touched.price && formik.errors.price}
+          </div>
 
-          <CustomInput type="number" label="Enter Product Price" name="price" />
-
-          <div className="error"></div>
-
-          <select name="brand" className="form-control py-3 mb-3" id="">
+          <select
+            name="brand"
+            onChange={formik.handleChange("brand")}
+            onBlur={formik.handleBlur("brand")}
+            value={formik.values.brand}
+            className="form-control py-3 mb-3"
+            id=""
+          >
             <option value="">Select Brand</option>
+            {brandState.map((i, j) => {
+              return (
+                <option key={j} value={i.title}>
+                  {i.title}
+                </option>
+              )
+            })}
           </select>
+          <div className="error">
+            {formik.touched.brand && formik.errors.brand}
+          </div>
 
-          <div className="error"></div>
-
-          <select name="brand" className="form-control py-3 mb-3" id="">
+          <select
+            name="category"
+            onChange={formik.handleChange("category")}
+            onBlur={formik.handleBlur("category")}
+            value={formik.values.category}
+            className="form-control py-3 mb-3"
+            id=""
+          >
             <option value="">Select Category</option>
+            {catState.map((i, j) => {
+              return (
+                <option key={j} value={i.title}>
+                  {i.title}
+                </option>
+              )
+            })}
           </select>
+          <div className="error">
+            {formik.touched.category && formik.errors.category}
+          </div>
 
-          <div className="error"></div>
-
-          <div className="error"></div>
-
-          <select name="brand" className="form-control py-3 mb-3" id="">
-            <option value="">Select Brand</option>
+          <select
+            name="tags"
+            onChange={formik.handleChange("tags")}
+            onBlur={formik.handleBlur("tags")}
+            value={formik.values.tags}
+            className="form-control py-3 mb-3"
+            id=""
+          >
+            <option value="" disabled>
+              Select Category
+            </option>
+            <option value="featured">Featured</option>
+            <option value="popular">Popular</option>
+            <option value="special">Special</option>
           </select>
-
-          <div className="error"></div>
+          <div className="error">
+            {formik.touched.tags && formik.errors.tags}
+          </div>
 
           <Select
             mode="multiple"
             allowClear
             className="w-100"
             placeholder="Select colors"
+            defaultValue={color}
+            onChange={(i) => handleColors(i)}
+            options={coloropt}
           />
-
-          <div className="error"></div>
+          <div className="error">
+            {formik.touched.color && formik.errors.color}
+          </div>
 
           <CustomInput
             type="number"
             label="Enter Product Quantity"
             name="quantity"
+            onChng={formik.handleChange("quantity")}
+            onBlr={formik.handleBlur("quantity")}
+            val={formik.values.quantity}
           />
-
-          <div className="error"></div>
-
-          <div className="bg-white border-1 p-5 text-center"></div>
-
-          <div className="showimages d-flex flex-wrap gap-3"></div>
+          <div className="error">
+            {formik.touched.quantity && formik.errors.quantity}
+          </div>
 
           <button
             className="btn btn-success border-0 rounded-3 my-5"
