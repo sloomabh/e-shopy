@@ -199,7 +199,7 @@ const rating = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
-
+/*
 const {
   cloudinaryUploadImg,
   cloudinaryDeleteImg,
@@ -244,7 +244,7 @@ const deleteImages = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
-
+*/
 module.exports = {
   createProduct,
   getaProduct,
@@ -253,5 +253,4 @@ module.exports = {
   deleteProduct,
   addToWishlist,
   rating,
-  uploadImages,
 };

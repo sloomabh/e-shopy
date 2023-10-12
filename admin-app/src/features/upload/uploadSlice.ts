@@ -1,7 +1,7 @@
-/*
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import uploadService from "./uploadService"
 
+//upload image
 export const uploadImg = createAsyncThunk(
   "upload/images",
   async (data, thunkAPI) => {
@@ -16,6 +16,8 @@ export const uploadImg = createAsyncThunk(
     }
   },
 )
+
+// Delete image
 export const delImg = createAsyncThunk(
   "delete/images",
   async (id, thunkAPI) => {
@@ -42,13 +44,13 @@ export const uploadSlice = createSlice({
       .addCase(uploadImg.pending, (state) => {
         state.isLoading = true
       })
-      .addCase(uploadImg.fulfilled, (state, action) => {
+      .addCase(uploadImg.fulfilled, (state, action: PayloadAction<any>) => {
         state.isLoading = false
         state.isError = false
         state.isSuccess = true
         state.images = action.payload
       })
-      .addCase(uploadImg.rejected, (state, action) => {
+      .addCase(uploadImg.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false
         state.isError = true
         state.isSuccess = false
@@ -57,13 +59,13 @@ export const uploadSlice = createSlice({
       .addCase(delImg.pending, (state) => {
         state.isLoading = true
       })
-      .addCase(delImg.fulfilled, (state, action) => {
+      .addCase(delImg.fulfilled, (state, action: PayloadAction<any>) => {
         state.isLoading = false
         state.isError = false
         state.isSuccess = true
         state.images = []
       })
-      .addCase(delImg.rejected, (state, action) => {
+      .addCase(delImg.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false
         state.isError = true
         state.isSuccess = false
@@ -72,4 +74,3 @@ export const uploadSlice = createSlice({
   },
 })
 export default uploadSlice.reducer
-*/

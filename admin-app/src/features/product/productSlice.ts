@@ -1,4 +1,9 @@
-import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import {
+  createAction,
+  PayloadAction,
+  createSlice,
+  createAsyncThunk,
+} from "@reduxjs/toolkit"
 import productService from "./productService"
 
 import { ProductType, ProductDefautState } from "./productType.dt"
@@ -9,6 +14,7 @@ interface InitialState {
   isLoading: boolean
   isSuccess: boolean
   message: any
+  createdProduct?: any
 }
 
 //Actions
@@ -24,7 +30,7 @@ export const getProducts = createAsyncThunk(
 )
 export const createProducts = createAsyncThunk(
   "product/create-products",
-  async (productData, thunkAPI) => {
+  async (productData: ProductType, thunkAPI) => {
     try {
       return await productService.createProduct(productData)
     } catch (error) {
@@ -33,7 +39,7 @@ export const createProducts = createAsyncThunk(
   },
 )
 
-//export const resetState = createAction("Reset_all");
+export const resetState = createAction("Reset_all")
 
 const initialState: InitialState = {
   products: [],
@@ -41,6 +47,7 @@ const initialState: InitialState = {
   isLoading: false,
   isSuccess: false,
   message: "",
+  createdProduct: "",
 }
 
 export const productSlice = createSlice({
@@ -64,7 +71,7 @@ export const productSlice = createSlice({
         state.isSuccess = false
         state.message = action.error
       })
-    /* .addCase(createProducts.pending, (state) => {
+      .addCase(createProducts.pending, (state) => {
         state.isLoading = true
       })
       .addCase(
@@ -82,7 +89,7 @@ export const productSlice = createSlice({
         state.isSuccess = false
         state.message = action.error
       })
-      .addCase(resetState, () => initialState)*/
+      .addCase(resetState, () => initialState)
   },
 })
 export default productSlice.reducer

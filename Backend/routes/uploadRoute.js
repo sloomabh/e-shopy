@@ -1,4 +1,3 @@
-/*
 const express = require("express");
 const { uploadImages, deleteImages } = require("../controller/uploadCtrl");
 const { isAdmin, authMiddleware } = require("../middlewares/authMiddleware");
@@ -17,4 +16,3 @@ router.post(
 router.delete("/delete-img/:id", authMiddleware, isAdmin, deleteImages);
 
 module.exports = router;
-*/

@@ -20,7 +20,7 @@ const brandRouter = require("./routes/brandRoute");
 const couponRouter = require("./routes/couponRoute");
 const colorRouter = require("./routes/colorRoute");
 const enqRouter = require("./routes/enqRoute");
-//const uploadRouter = require("./routes/uploadRoute");
+const uploadRouter = require("./routes/uploadRoute");
 
 app.use(morgan("dev")); // toget information in console log for each req : GET /api/product 200 203.942 ms - 592
 app.use(bodyParser.json()); // we can send json object to client
@@ -41,7 +41,7 @@ app.use("/api/brand", brandRouter);
 app.use("/api/coupon", couponRouter);
 app.use("/api/color", colorRouter);
 app.use("/api/enquiry", enqRouter);
-//app.use("/api/upload", uploadRouter);
+app.use("/api/upload", uploadRouter);
 
 //const date = new Date();
 //console.log(date.toLocaleString());

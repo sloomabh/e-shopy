@@ -1,4 +1,3 @@
-/*
 const fs = require("fs");
 const asyncHandler = require("express-async-handler");
 
@@ -17,14 +16,15 @@ const uploadImages = asyncHandler(async (req, res) => {
     for (const file of files) {
       const { path } = file;
       const newpath = await uploader(path);
+      const { url, asset_id, public_id } = newpath;
       console.log(newpath);
-      urls.push(newpath);
+      urls.push({ url, asset_id, public_id }); // Push the extracted properties into the array
       fs.unlinkSync(path);
     }
-    const images = urls.map((file) => {
+    /*const images = urls.map((file) => {
       return file;
-    });
-    res.json(images);
+    });*/
+    res.json(urls);
   } catch (error) {
     throw new Error(error);
   }
@@ -44,6 +44,3 @@ module.exports = {
   uploadImages,
   deleteImages,
 };
-
-
-*/
