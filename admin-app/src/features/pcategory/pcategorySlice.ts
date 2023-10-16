@@ -61,6 +61,7 @@ interface InitialState {
   isLoading: boolean
   isSuccess: boolean
   message: any
+  createdCategory?: any
 }
 
 const initialState: InitialState = {
@@ -69,6 +70,7 @@ const initialState: InitialState = {
   isLoading: false,
   isSuccess: false,
   message: "",
+  createdCategory: {},
 }
 export const pCategorySlice = createSlice({
   name: "pCategories",
@@ -91,7 +93,7 @@ export const pCategorySlice = createSlice({
         state.isSuccess = false
         state.message = action.error
       })
-    /*  .addCase(createCategory.pending, (state) => {
+      .addCase(createCategory.pending, (state) => {
         state.isLoading = true
       })
       .addCase(createCategory.fulfilled, (state, action) => {
@@ -151,7 +153,7 @@ export const pCategorySlice = createSlice({
         state.isSuccess = false
         state.message = action.error
       })
-      .addCase(resetState, () => initialState)*/
+      .addCase(resetState, () => initialState)
   },
 })
 export default pCategorySlice.reducer

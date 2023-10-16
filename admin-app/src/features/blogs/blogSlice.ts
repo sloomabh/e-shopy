@@ -59,6 +59,7 @@ interface InitialState {
   isLoading: boolean
   isSuccess: boolean
   message: any
+  createdBlog?: any
 }
 
 const initialState: InitialState = {
@@ -90,7 +91,7 @@ export const blogSlice = createSlice({
         state.isSuccess = false
         state.message = action.error
       })
-    /* .addCase(createBlogs.pending, (state) => {
+      .addCase(createBlogs.pending, (state) => {
         state.isLoading = true
       })
       .addCase(createBlogs.fulfilled, (state, action) => {
@@ -153,7 +154,7 @@ export const blogSlice = createSlice({
         state.isSuccess = false
         state.message = action.error
       })
-      .addCase(resetState, () => initialState)*/
+      .addCase(resetState, () => initialState)
   },
 })
 export default blogSlice.reducer

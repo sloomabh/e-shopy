@@ -63,6 +63,7 @@ interface InitialState {
   isLoading: boolean
   isSuccess: boolean
   message: any
+  createdColor?: any
 }
 
 const initialState: InitialState = {
@@ -93,7 +94,7 @@ export const colorSlice = createSlice({
         state.isSuccess = false
         state.message = action.error
       })
-    /*  .addCase(createColor.pending, (state) => {
+      .addCase(createColor.pending, (state) => {
         state.isLoading = true
       })
       .addCase(createColor.fulfilled, (state, action) => {
@@ -153,7 +154,7 @@ export const colorSlice = createSlice({
         state.isSuccess = false
         state.message = action.error
       })
-      .addCase(resetState, () => initialState)*/
+      .addCase(resetState, () => initialState)
   },
 })
 export default colorSlice.reducer

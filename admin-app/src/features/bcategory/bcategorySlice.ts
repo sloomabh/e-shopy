@@ -62,6 +62,7 @@ interface InitialState {
   isLoading: boolean
   isSuccess: boolean
   message: any
+  createBlogCategory?: any
 }
 
 const initialState: InitialState = {
@@ -71,7 +72,7 @@ const initialState: InitialState = {
   isSuccess: false,
   message: "",
 }
-export const pCategorySlice = createSlice({
+export const bCategorySlice = createSlice({
   name: "bCategories",
   initialState,
   reducers: {},
@@ -92,7 +93,7 @@ export const pCategorySlice = createSlice({
         state.isSuccess = false
         state.message = action.error
       })
-    /*.addCase(createNewblogCat.pending, (state) => {
+      .addCase(createNewblogCat.pending, (state) => {
         state.isLoading = true
       })
       .addCase(createNewblogCat.fulfilled, (state, action) => {
@@ -152,7 +153,7 @@ export const pCategorySlice = createSlice({
         state.isSuccess = false
         state.message = action.error
       })
-      .addCase(resetState, () => initialState)*/
+      .addCase(resetState, () => initialState)
   },
 })
-export default pCategorySlice.reducer
+export default bCategorySlice.reducer

@@ -241,7 +241,7 @@ const MainLayout: React.FC = () => {
         >
           <ToastContainer
             position="top-right"
-            autoClose={700}
+            autoClose={900}
             hideProgressBar={false}
             newestOnTop={true}
             closeOnClick

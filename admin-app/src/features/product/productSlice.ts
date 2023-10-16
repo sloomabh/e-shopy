@@ -47,7 +47,7 @@ const initialState: InitialState = {
   isLoading: false,
   isSuccess: false,
   message: "",
-  createdProduct: "",
+  createdProduct: {},
 }
 
 export const productSlice = createSlice({

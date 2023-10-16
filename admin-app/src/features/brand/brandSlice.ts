@@ -63,6 +63,7 @@ interface InitialState {
   isLoading: boolean
   isSuccess: boolean
   message: any
+  createdBrand?: any
 }
 
 const initialState: InitialState = {

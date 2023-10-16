@@ -53,7 +53,7 @@ const Brandlist = () => {
   }, [])
 
   const brandState = useAppSelector((state) => state.brand.brands)
-  console.log(brandState)
+  //  console.log(brandState)
 
   const data1: Data1Type[] = []
   for (let i = 0; i < brandState.length; i++) {
