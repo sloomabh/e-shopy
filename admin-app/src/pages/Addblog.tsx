@@ -37,11 +37,11 @@ const Addblog = () => {
     isError,
     isLoading,
     createdBlog,
-    /*  blogName,
+    blogName,
     blogDesc,
     blogCategory,
     blogImages,
-    updatedBlog,*/
+    updatedBlog,
   } = blogState
 
   /* useEffect(() => {
@@ -52,11 +52,14 @@ const Addblog = () => {
       dispatch(resetState())
     }
   }, [getBlogId])
+*/
 
+  /********* GET BLOG CATEGORIES  ********************* */
   useEffect(() => {
     dispatch(resetState())
     dispatch(getCategories())
-  }, [])*/
+  }, [])
+  /****************************************** */
 
   useEffect(() => {
     if (isSuccess && createdBlog) {
@@ -71,6 +74,7 @@ const Addblog = () => {
     }
   }, [isSuccess, isError, isLoading])
 
+  /***************** UPLOAD IMAGE ****************************** */
   const img = []
   imgState.forEach((i) => {
     img.push({
@@ -79,10 +83,12 @@ const Addblog = () => {
     })
   })
   console.log(img)
+  /************************************************ */
+
   useEffect(() => {
     formik.values.images = img
-  }, [blogImages])
-
+  }, [])
+  /********************************************************* */
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -103,34 +109,101 @@ const Addblog = () => {
 
   return (
     <div>
-      <h3 className="mb-4 title"> Add Blog</h3>
+      <h3 className="mb-4 title">
+        {/*getBlogId !== undefined ? "Edit" : "Add"*/} Blog
+      </h3>
+
       <div className="">
-        <form action="">
+        <form action="" onSubmit={formik.handleSubmit}>
+          {/* INPUT TITLE*/}
           <div className="mt-4">
-            <CustomInput type="text" label="Enter Blog Title" name="title" />
+            <CustomInput
+              type="text"
+              label="Enter Blog Title"
+              name="title"
+              onChng={formik.handleChange("title")}
+              onBlr={formik.handleBlur("title")}
+              val={formik.values.title}
+            />
           </div>
-          <div className="error"></div>
-          <select name="category" className="form-control py-3  mt-3" id="">
+          <div className="error">
+            {formik.touched.title && formik.errors.title}
+          </div>
+
+          {/*select  category */}
+          <select
+            name="category"
+            onChange={formik.handleChange("category")}
+            onBlur={formik.handleBlur("category")}
+            value={formik.values.category}
+            className="form-control py-3  mt-3"
+            id=""
+          >
             <option value="">Select Blog Category</option>
+            {bCatState.map((i, j) => {
+              return (
+                <option key={j} value={i.title}>
+                  {i.title}
+                </option>
+              )
+            })}
           </select>
+          <div className="error">
+            {formik.touched.category && formik.errors.category}
+          </div>
+
           <ReactQuill
             theme="snow"
-            value={desc}
-            onChange={(evt: any) => {
-              handelDesc(evt)
-            }}
+            className="mt-3"
+            name="description"
+            onChange={formik.handleChange("description")}
+            value={formik.values.description}
           />
-          <div className="error"></div>
+          <div className="error">
+            {formik.touched.description && formik.errors.description}
+          </div>
 
-          <div className="error"></div>
-          <div className="bg-white border-1 p-5 text-center mt-3"></div>
-          <div className="showimages d-flex flex-wrap mt-3 gap-3"></div>
+          {/* DROP ZONE*/}
+          <div className="bg-white border-1 p-5 text-center mt-3">
+            <Dropzone
+              onDrop={(acceptedFiles) => dispatch(uploadImg(acceptedFiles))}
+            >
+              {({ getRootProps, getInputProps }) => (
+                <section>
+                  <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <p>
+                      Drag 'n' drop some files here, or click to select files
+                    </p>
+                  </div>
+                </section>
+              )}
+            </Dropzone>
+          </div>
 
+          {/* SHOW IMAGES*/}
+          <div className="showimages d-flex flex-wrap mt-3 gap-3">
+            {imgState?.map((i, j) => {
+              return (
+                <div className=" position-relative" key={j}>
+                  <button
+                    type="button"
+                    onClick={() => dispatch(delImg(i.public_id))}
+                    className="btn-close position-absolute"
+                    style={{ top: "10px", right: "10px" }}
+                  ></button>
+                  <img src={i.url} alt="" width={200} height={200} />
+                </div>
+              )
+            })}
+          </div>
+
+          {/* submit button */}
           <button
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            Add Blog
+            {/*getBlogId !== undefined ? "Edit" : "Add"*/} Blog
           </button>
         </form>
       </div>
