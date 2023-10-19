@@ -9,6 +9,7 @@ interface InitialState {
   isLoading: boolean
   isSuccess: boolean
   message: any
+  createdCoupon?: any
 }
 
 export const getAllCoupon = createAsyncThunk(
@@ -92,7 +93,7 @@ export const couponSlice = createSlice({
         state.message = action.error
       })
 
-    /*.addCase(createCoupon.pending, (state) => {
+      .addCase(createCoupon.pending, (state) => {
         state.isLoading = true
       })
       .addCase(createCoupon.fulfilled, (state, action) => {
@@ -156,7 +157,7 @@ export const couponSlice = createSlice({
         state.isSuccess = false
         state.message = action.error
       })
-      .addCase(resetState, () => initialState)*/
+      .addCase(resetState, () => initialState)
   },
 })
 

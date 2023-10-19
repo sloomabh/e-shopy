@@ -27,7 +27,7 @@ const Addblog = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const location = useLocation()
-  //  const getBlogId = location.pathname.split("/")[3]
+  const getBlogId = location.pathname.split("/")[3]
   const imgState = useAppSelector((state) => state.upload.images)
   const bCatState = useAppSelector((state) => state.bCategory.bCategories)
   const blogState = useAppSelector((state) => state.blogs)
@@ -44,7 +44,7 @@ const Addblog = () => {
     updatedBlog,
   } = blogState
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (getBlogId !== undefined) {
       dispatch(getABlog(getBlogId))
       img.push(blogImages)
@@ -52,7 +52,6 @@ const Addblog = () => {
       dispatch(resetState())
     }
   }, [getBlogId])
-*/
 
   /********* GET BLOG CATEGORIES  ********************* */
   useEffect(() => {
@@ -65,10 +64,10 @@ const Addblog = () => {
     if (isSuccess && createdBlog) {
       toast.success("Blog Added Successfullly!")
     }
-    /*  if (isSuccess && updatedBlog) {
+    if (isSuccess && updatedBlog) {
       toast.success("Blog Updated Successfullly!")
       navigate("/admin/blog-list")
-    }*/
+    }
     if (isError) {
       toast.error("Something Went Wrong!")
     }
@@ -92,25 +91,31 @@ const Addblog = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: "",
-      description: "",
-      category: "",
+      title: blogName || "",
+      description: blogDesc || "",
+      category: blogCategory || "",
       images: "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createBlogs(values))
-      formik.resetForm()
-      setTimeout(() => {
+      if (getBlogId !== undefined) {
+        const data = { id: getBlogId, blogData: values }
+        dispatch(updateABlog(data))
         dispatch(resetState())
-      }, 300)
+      } else {
+        dispatch(createBlogs(values))
+        formik.resetForm()
+        setTimeout(() => {
+          dispatch(resetState())
+        }, 300)
+      }
     },
   })
 
   return (
     <div>
       <h3 className="mb-4 title">
-        {/*getBlogId !== undefined ? "Edit" : "Add"*/} Blog
+        {getBlogId !== undefined ? "Edit" : "Add"} Blog
       </h3>
 
       <div className="">
@@ -203,7 +208,7 @@ const Addblog = () => {
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            {/*getBlogId !== undefined ? "Edit" : "Add"*/} Blog
+            {getBlogId !== undefined ? "Edit" : "Add"} Blog
           </button>
         </form>
       </div>

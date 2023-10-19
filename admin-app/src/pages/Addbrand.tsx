@@ -20,33 +20,34 @@ const Addbrand = () => {
   const dispatch = useAppDispatch()
   const location = useLocation()
   const navigate = useNavigate()
-  //const getBrandId = location.pathname.split("/")[3]
+  const getBrandId: string = location.pathname.split("/")[3]
+
   const newBrand = useAppSelector((state) => state.brand)
   const {
     isSuccess,
     isError,
     isLoading,
     createdBrand,
-    /*brandName,
-    updatedBrand,*/
+    brandName,
+    updatedBrand,
   } = newBrand
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (getBrandId !== undefined) {
       dispatch(getABrand(getBrandId))
     } else {
       dispatch(resetState())
     }
-  }, [getBrandId])*/
+  }, [getBrandId])
 
   useEffect(() => {
     if (isSuccess && createdBrand) {
       toast.success("Brand Added Successfullly!")
     }
-    /* if (isSuccess && updatedBrand) {
+    if (isSuccess && updatedBrand) {
       toast.success("Brand Updated Successfullly!")
       navigate("/admin/list-brand")
-    }*/
+    }
 
     if (isError) {
       toast.error("Something Went Wrong!")
@@ -56,23 +57,29 @@ const Addbrand = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: "",
+      title: brandName || "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createBrand(values))
-      formik.resetForm()
-      setTimeout(() => {
+      if (getBrandId !== undefined) {
+        const data = { id: getBrandId, brandData: values }
+        dispatch(updateABrand(data))
         dispatch(resetState())
-        // navigate("/admin/list-brand")
-      }, 300)
+      } else {
+        dispatch(createBrand(values))
+        formik.resetForm()
+        setTimeout(() => {
+          dispatch(resetState())
+          navigate("/admin/list-brand")
+        }, 300)
+      }
     },
   })
 
   return (
     <div>
       <h3 className="mb-4 title">
-        {/*getBrandId !== undefined ? "Edit" : "Add"*/} Brand
+        {getBrandId !== undefined ? "Edit" : "Add"} Brand
       </h3>
       <div>
         <form action="" onSubmit={formik.handleSubmit}>
@@ -92,7 +99,7 @@ const Addbrand = () => {
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            {/*getBrandId !== undefined ? "Edit" : "Add"*/} Brand
+            {getBrandId !== undefined ? "Edit" : "Add"} Brand
           </button>
         </form>
       </div>

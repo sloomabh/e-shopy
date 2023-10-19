@@ -5,7 +5,7 @@ import { AiFillDelete } from "react-icons/ai"
 import { Link } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
 import { deleteABlog, getBlogs, resetState } from "../features/blogs/blogSlice"
-//import CustomModal from "../components/CustomModal";
+import CustomModal from "../components/CustomModal"
 
 interface Data1Type {
   key: number
@@ -45,7 +45,7 @@ const Bloglist = () => {
   }
   const dispatch = useAppDispatch()
   useEffect(() => {
-    //dispatch(resetState())
+    dispatch(resetState())
     dispatch(getBlogs())
   }, [])
   const getBlogState = useAppSelector((state) => state.blogs.blogs)
@@ -74,6 +74,15 @@ const Bloglist = () => {
       ),
     })
   }
+
+  const deleteBlog = (e) => {
+    dispatch(deleteABlog(e))
+
+    setOpen(false)
+    setTimeout(() => {
+      dispatch(getBlogs())
+    }, 100)
+  }
   return (
     <div>
       {" "}
@@ -81,14 +90,14 @@ const Bloglist = () => {
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
-      {/*  <CustomModal
+      <CustomModal
         hideModal={hideModal}
         open={open}
         performAction={() => {
-          deleteEnq(enqId)
+          deleteBlog(blogId)
         }}
         title="Are you sure you want to delete this enquiry?"
-      /> */}
+      />
     </div>
   )
 }

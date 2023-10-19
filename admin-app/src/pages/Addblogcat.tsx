@@ -26,26 +26,26 @@ const Addblogcat = () => {
     isError,
     isLoading,
     createBlogCategory,
-    /* blogCatName,
-    updatedBlogCategory,*/
+    blogCatName,
+    updatedBlogCategory,
   } = newBlogCategory
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (getBlogCatId !== undefined) {
       dispatch(getABlogCat(getBlogCatId))
     } else {
       dispatch(resetState())
     }
-  }, [getBlogCatId])*/
+  }, [getBlogCatId])
 
   useEffect(() => {
     if (isSuccess && createBlogCategory) {
       toast.success("Blog Category Added Successfullly!")
     }
-    /* if (isSuccess && updatedBlogCategory) {
+    if (isSuccess && updatedBlogCategory) {
       toast.success("Blog Category Updated Successfullly!")
       navigate("/admin/blog-category-list")
-    }*/
+    }
     if (isError) {
       toast.error("Something Went Wrong!")
     }
@@ -54,24 +54,28 @@ const Addblogcat = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: "",
+      title: blogCatName || "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      /* const data = { id: getBlogCatId, blogCatData: values }*/
-
-      dispatch(createNewblogCat(values))
-      formik.resetForm()
-      setTimeout(() => {
+      const data = { id: getBlogCatId, blogCatData: values }
+      if (getBlogCatId !== undefined) {
+        dispatch(updateABlogCat(data))
         dispatch(resetState())
-      }, 300)
+      } else {
+        dispatch(createNewblogCat(values))
+        formik.resetForm()
+        setTimeout(() => {
+          dispatch(resetState())
+        }, 300)
+      }
     },
   })
 
   return (
     <div>
       <h3 className="mb-4  title">
-        {/*getBlogCatId !== undefined ? "Edit" : "Add"*/} Blog Category
+        {getBlogCatId !== undefined ? "Edit" : "Add"} Blog Category
       </h3>
       <div>
         <form action="" onSubmit={formik.handleSubmit}>
@@ -91,7 +95,7 @@ const Addblogcat = () => {
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            {/*getBlogCatId !== undefined ? "Edit" : "Add"*/} Blog Category
+            {getBlogCatId !== undefined ? "Edit" : "Add"} Blog Category
           </button>
         </form>
       </div>

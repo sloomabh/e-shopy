@@ -31,13 +31,13 @@ const Addcat = () => {
     updatedCategory,
   } = newCategory
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (getPCatId !== undefined) {
       dispatch(getAProductCategory(getPCatId))
     } else {
       dispatch(resetState())
     }
-  }, [getPCatId])*/
+  }, [getPCatId])
 
   useEffect(() => {
     if (isSuccess && createdCategory) {
@@ -56,22 +56,27 @@ const Addcat = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: "",
+      title: categoryName || "",
     },
-    validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createCategory(values))
-      formik.resetForm()
-      setTimeout(() => {
+      if (getPCatId !== undefined) {
+        const data = { id: getPCatId, pCatData: values }
+        dispatch(updateAProductCategory(data))
         dispatch(resetState())
-      }, 300)
+      } else {
+        dispatch(createCategory(values))
+        formik.resetForm()
+        setTimeout(() => {
+          dispatch(resetState())
+        }, 300)
+      }
     },
   })
 
   return (
     <div>
       <h3 className="mb-4  title">
-        {/*getPCatId !== undefined ? "Edit" : "Add"*/} Category
+        {getPCatId !== undefined ? "Edit" : "Add"} Category
       </h3>
       <div>
         <form action="" onSubmit={formik.handleSubmit}>
@@ -90,7 +95,7 @@ const Addcat = () => {
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            {/*getPCatId !== undefined ? "Edit" : "Add"*/} Category
+            {getPCatId !== undefined ? "Edit" : "Add"} Category
           </button>
         </form>
       </div>

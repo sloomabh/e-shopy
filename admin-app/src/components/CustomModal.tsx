@@ -12,6 +12,7 @@ type CustomModalProp = {
     | ((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void)
     | undefined
 }
+
 const CustomModal = (props: CustomModalProp) => {
   const { open, hideModal, performAction, title } = props
   return (

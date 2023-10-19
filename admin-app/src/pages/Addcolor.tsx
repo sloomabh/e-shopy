@@ -27,26 +27,26 @@ const Addcolor = () => {
     isError,
     isLoading,
     createdColor,
-    /*   updatedColor,
-    colorName,*/
+    updatedColor,
+    colorName,
   } = newColor
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (getColorId !== undefined) {
       dispatch(getAColor(getColorId))
     } else {
       dispatch(resetState())
     }
-  }, [getColorId])*/
+  }, [getColorId])
 
   useEffect(() => {
     if (isSuccess && createdColor) {
       toast.success("Color Added Successfullly!")
     }
-    /*  if (isSuccess && updatedColor) {
+    if (isSuccess && updatedColor) {
       toast.success("Color Updated Successfullly!")
       navigate("/admin/list-color")
-    }*/
+    }
     if (isError) {
       toast.error("Something Went Wrong!")
     }
@@ -59,18 +59,24 @@ const Addcolor = () => {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createColor(values))
-      formik.resetForm()
-      setTimeout(() => {
+      if (getColorId !== undefined) {
+        const data = { id: getColorId, colorData: values }
+        dispatch(updateAColor(data))
         dispatch(resetState())
-      }, 300)
+      } else {
+        dispatch(createColor(values))
+        formik.resetForm()
+        setTimeout(() => {
+          dispatch(resetState())
+        }, 300)
+      }
     },
   })
 
   return (
     <div>
       <h3 className="mb-4 title">
-        {/*getColorId !== undefined ? "Edit" : "Add"*/} Color
+        {getColorId !== undefined ? "Edit" : "Add"} Color
       </h3>
       <div>
         <form action="" onSubmit={formik.handleSubmit}>
@@ -89,7 +95,7 @@ const Addcolor = () => {
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
-            {/*getColorId !== undefined ? "Edit" : "Add"*/} Color
+            {getColorId !== undefined ? "Edit" : "Add"} Color
           </button>
         </form>
       </div>

@@ -10,7 +10,7 @@ import {
   getCategories,
   resetState,
 } from "../features/pcategory/pcategorySlice"
-//import CustomModal from "../components/CustomModal"
+import CustomModal from "../components/CustomModal"
 interface Data1Type {
   key: number
   name: string
@@ -36,6 +36,7 @@ const columns = [
 const Categorylist = () => {
   const [open, setOpen] = useState(false)
   const [pCatId, setpCatId] = useState("")
+
   const showModal = (e) => {
     setOpen(true)
     setpCatId(e)
@@ -47,7 +48,6 @@ const Categorylist = () => {
 
   const dispatch = useAppDispatch()
   useEffect(() => {
-    //dispatch(resetState())
     dispatch(getCategories())
   }, [])
   const pCatStat = useAppSelector((state) => state.pCategory.pCategories)
@@ -75,21 +75,29 @@ const Categorylist = () => {
       ),
     })
   }
+  const deleteCategory = (e) => {
+    dispatch(deleteAProductCategory(e))
+
+    setOpen(false)
+    setTimeout(() => {
+      dispatch(getCategories())
+    }, 100)
+  }
   return (
     <div>
       {" "}
-      <h3 className="mb-4 title">Category list</h3>
+      <h3 className="mb-4 title">Product Categories</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
-      {/*  <CustomModal
+      <CustomModal
         hideModal={hideModal}
         open={open}
         performAction={() => {
-          deleteEnq(enqId)
+          deleteCategory(pCatId)
         }}
         title="Are you sure you want to delete this enquiry?"
-      /> */}
+      />
     </div>
   )
 }

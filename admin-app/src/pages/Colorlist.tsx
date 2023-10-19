@@ -5,7 +5,7 @@ import { deleteAColor, getColors } from "../features/color/colorSlice"
 import { BiEdit } from "react-icons/bi"
 import { AiFillDelete } from "react-icons/ai"
 import { Link } from "react-router-dom"
-//import CustomModal from "../components/CustomModal"
+import CustomModal from "../components/CustomModal"
 
 interface Data1Type {
   key: number
@@ -67,6 +67,14 @@ const Colorlist = () => {
       ),
     })
   }
+  const deleteColor = (e) => {
+    dispatch(deleteAColor(e))
+
+    setOpen(false)
+    setTimeout(() => {
+      dispatch(getColors())
+    }, 100)
+  }
   return (
     <div>
       {" "}
@@ -74,14 +82,14 @@ const Colorlist = () => {
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
-      {/*  <CustomModal
+      <CustomModal
         hideModal={hideModal}
         open={open}
         performAction={() => {
-          deleteEnq(enqId)
+          deleteColor(colorId)
         }}
         title="Are you sure you want to delete this enquiry?"
-      /> */}
+      />
     </div>
   )
 }

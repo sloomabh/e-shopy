@@ -10,7 +10,7 @@ import {
   resetState,
 } from "../features/brand/brandSlice"
 
-//import CustomModal from "../components/CustomModal"
+import CustomModal from "../components/CustomModal"
 
 interface Data1Type {
   key: number
@@ -48,7 +48,7 @@ const Brandlist = () => {
 
   const dispatch = useAppDispatch()
   useEffect(() => {
-    //dispatch(resetState())
+    dispatch(resetState())
     dispatch(getBrands())
   }, [])
 
@@ -78,6 +78,13 @@ const Brandlist = () => {
       ),
     })
   }
+  const deleteBrand = (e) => {
+    dispatch(deleteABrand(e))
+    setOpen(false)
+    setTimeout(() => {
+      dispatch(getBrands())
+    }, 100)
+  }
   return (
     <div>
       {" "}
@@ -85,14 +92,14 @@ const Brandlist = () => {
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
-      {/*  <CustomModal
+      <CustomModal
         hideModal={hideModal}
         open={open}
         performAction={() => {
-          deleteEnq(enqId)
+          deleteBrand(brandId)
         }}
         title="Are you sure you want to delete this enquiry?"
-      /> */}
+      />
     </div>
   )
 }

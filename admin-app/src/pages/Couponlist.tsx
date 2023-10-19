@@ -4,9 +4,9 @@ import { BiEdit } from "react-icons/bi"
 import { AiFillDelete } from "react-icons/ai"
 import { Link } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
-import { getAllCoupon } from "../features/coupon/couponSlice"
+import { deleteACoupon, getAllCoupon } from "../features/coupon/couponSlice"
 
-//import CustomModal from "../components/CustomModal"
+import CustomModal from "../components/CustomModal"
 
 interface Data1Type {
   key: number
@@ -46,6 +46,7 @@ const columns = [
 const Couponlist = () => {
   const [open, setOpen] = useState(false)
   const [couponId, setcouponId] = useState("")
+
   const showModal = (e) => {
     setOpen(true)
     setcouponId(e)
@@ -58,6 +59,7 @@ const Couponlist = () => {
   useEffect(() => {
     dispatch(getAllCoupon())
   }, [])
+
   const couponState = useAppSelector((state) => state.coupon.coupons)
   const data1: Data1Type[] = []
   for (let i = 0; i < couponState.length; i++) {
@@ -84,20 +86,30 @@ const Couponlist = () => {
       ),
     })
   }
+
+  const deleteCoupon = (e) => {
+    dispatch(deleteACoupon(e))
+
+    setOpen(false)
+    setTimeout(() => {
+      dispatch(getAllCoupon())
+    }, 100)
+  }
+
   return (
     <div>
       <h3 className="mb-4 title">Coupons</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
-      {/* <CustomModal
+      <CustomModal
         hideModal={hideModal}
         open={open}
         performAction={() => {
           deleteCoupon(couponId)
         }}
         title="Are you sure you want to delete this Coupon?"
-      /> */}
+      />
     </div>
   )
 }

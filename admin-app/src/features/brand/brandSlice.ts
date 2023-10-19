@@ -64,6 +64,9 @@ interface InitialState {
   isSuccess: boolean
   message: any
   createdBrand?: any
+  brandName?: string
+  updatedBrand?: any
+  deletedBrand?: any
 }
 
 const initialState: InitialState = {

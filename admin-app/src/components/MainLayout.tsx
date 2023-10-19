@@ -32,7 +32,11 @@ const MainLayout: React.FC = () => {
   const navigate = useNavigate()
 
   return (
-    <Layout>
+    <Layout
+    /*onContextMenu={(e) => {
+        e.preventDefault()
+      }}*/ // if we want to disable rghit click
+    >
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">
           <h2 className="text-white fs-5 text-center py-3 mb-0">
