@@ -49,6 +49,7 @@ const getCoupon = asynHandler(async (req, res) => {
   validateMongoDbId(id);
   try {
     const getAcoupon = await Coupon.findById(id);
+
     res.json(getAcoupon);
   } catch (error) {
     throw new Error(error);

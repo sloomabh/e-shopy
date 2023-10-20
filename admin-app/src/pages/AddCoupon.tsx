@@ -21,7 +21,7 @@ const AddCoupon = () => {
   const dispatch = useAppDispatch()
   const location = useLocation()
   const navigate = useNavigate()
-  const getCouponId = location.pathname.split("/")[3]
+  const getCouponId: string = location.pathname.split("/")[3]
   const newCoupon = useAppSelector((state) => state.coupon)
 
   const {
@@ -61,6 +61,7 @@ const AddCoupon = () => {
       toast.error("Something Went Wrong!")
     }
   }, [isSuccess, isError, isLoading])
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -70,11 +71,17 @@ const AddCoupon = () => {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createCoupon(values))
-      formik.resetForm()
-      setTimeout(() => {
-        dispatch(resetState)
-      }, 300)
+      if (getCouponId !== undefined) {
+        const data = { id: getCouponId, couponData: values }
+        dispatch(updateACoupon(data))
+        dispatch(resetState())
+      } else {
+        dispatch(createCoupon(values))
+        formik.resetForm()
+        setTimeout(() => {
+          dispatch(resetState)
+        }, 300)
+      }
     },
   })
 
