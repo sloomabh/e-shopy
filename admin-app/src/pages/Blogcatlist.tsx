@@ -36,6 +36,7 @@ const columns = [
 const Blogcatlist = () => {
   const [open, setOpen] = useState(false)
   const [blogCatId, setblogCatId] = useState("")
+
   const showModal = (e) => {
     setOpen(true)
     setblogCatId(e)
@@ -46,7 +47,7 @@ const Blogcatlist = () => {
   }
   const dispatch = useAppDispatch()
   useEffect(() => {
-    // dispatch(resetState())
+    dispatch(resetState())
     dispatch(getCategories())
   }, [])
   const bCatState = useAppSelector((state) => state.bCategory.bCategories)
@@ -75,6 +76,13 @@ const Blogcatlist = () => {
       ),
     })
   }
+  const deleteBlogCategory = (e) => {
+    dispatch(deleteABlogCat(e))
+    setOpen(false)
+    setTimeout(() => {
+      dispatch(getCategories())
+    }, 100)
+  }
   return (
     <div>
       {" "}
@@ -82,14 +90,14 @@ const Blogcatlist = () => {
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
-      {/*  <CustomModal
+      <CustomModal
         hideModal={hideModal}
         open={open}
         performAction={() => {
-          deleteEnq(enqId)
+          deleteBlogCategory(blogCatId)
         }}
         title="Are you sure you want to delete this enquiry?"
-      /> */}
+      />
     </div>
   )
 }

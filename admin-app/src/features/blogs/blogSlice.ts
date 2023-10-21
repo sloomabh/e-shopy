@@ -60,6 +60,11 @@ interface InitialState {
   isSuccess: boolean
   message: any
   createdBlog?: any
+  blogName?: any
+  blogDesc?: any
+  blogCategory?: any
+  blogImages?: any
+  updatedBlog?: any
 }
 
 const initialState: InitialState = {

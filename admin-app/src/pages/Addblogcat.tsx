@@ -1,4 +1,4 @@
-import { React, useEffect } from "react"
+import { useEffect } from "react"
 import CustomInput from "../components/CustomInput"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
 import { useLocation, useNavigate } from "react-router-dom"

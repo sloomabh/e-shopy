@@ -83,7 +83,7 @@ export const enquirySlice = createSlice({
         state.isSuccess = false
         state.message = action.error
       })
-    /* .addCase(deleteAEnquiry.pending, (state) => {
+      .addCase(deleteAEnquiry.pending, (state) => {
         state.isLoading = true
       })
       .addCase(deleteAEnquiry.fulfilled, (state, action) => {
@@ -132,7 +132,7 @@ export const enquirySlice = createSlice({
         state.isSuccess = false
         state.message = action.error
       })
-      .addCase(resetState, () => initialState) */
+      .addCase(resetState, () => initialState)
   },
 })
 export default enquirySlice.reducer

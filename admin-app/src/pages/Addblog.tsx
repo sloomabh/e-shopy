@@ -55,7 +55,7 @@ const Addblog = () => {
 
   /********* GET BLOG CATEGORIES  ********************* */
   useEffect(() => {
-    dispatch(resetState())
+    //  dispatch(resetState())
     dispatch(getCategories())
   }, [])
   /****************************************** */
@@ -94,7 +94,7 @@ const Addblog = () => {
       title: blogName || "",
       description: blogDesc || "",
       category: blogCategory || "",
-      images: "",
+      images: blogImages || "",
     },
     validationSchema: schema,
     onSubmit: (values) => {

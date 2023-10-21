@@ -10,7 +10,7 @@ import {
 } from "../features/enquiry/enquirySlice"
 import { AiFillDelete, AiOutlineEye } from "react-icons/ai"
 import { Link } from "react-router-dom"
-//import CustomModal from "../components/CustomModal"
+import CustomModal from "../components/CustomModal"
 
 interface Data1Type {
   key: number
@@ -61,7 +61,7 @@ const Enquiries = () => {
     setOpen(false)
   }
   useEffect(() => {
-    // dispatch(resetState())
+    dispatch(resetState())
     dispatch(getEnquiries())
   }, [])
   const enqState = useAppSelector((state) => state.enquiry.enquiries)
@@ -128,14 +128,14 @@ const Enquiries = () => {
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
-      {/*  <CustomModal
+      <CustomModal
         hideModal={hideModal}
         open={open}
         performAction={() => {
           deleteEnq(enqId)
         }}
         title="Are you sure you want to delete this enquiry?"
-      /> */}
+      />
     </div>
   )
 }

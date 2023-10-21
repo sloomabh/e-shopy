@@ -63,6 +63,9 @@ interface InitialState {
   isSuccess: boolean
   message: any
   createBlogCategory?: any
+  blogCatName?: any
+  updatedBlogCategory?: any
+  deletedBlogCategory?: any
 }
 
 const initialState: InitialState = {
