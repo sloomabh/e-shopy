@@ -52,6 +52,13 @@ interface InitialState {
   isLoading: boolean
   isSuccess: boolean
   message: any
+  deletedEnquiry: any
+  updatedEnquiry: any
+  enqMobile: any
+  enqName: any
+  enqEmail: any
+  enqComment: any
+  enqStatus: any
 }
 
 const initialState: InitialState = {

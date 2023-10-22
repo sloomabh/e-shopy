@@ -2,18 +2,6 @@ import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import authService from "./authServices"
 import { UserInput, UserDefautType, OrdersDefautType } from "./UserType.dt"
 
-// Get User from local storage
-const getUserfromLocalStorage = localStorage.getItem("user")
-
-const initialState: InitialState = {
-  user: getUserfromLocalStorage ? JSON.parse(getUserfromLocalStorage) : null,
-  orders: [],
-  isError: false,
-  isLoading: false,
-  isSuccess: false,
-  message: "",
-}
-
 // ACTIONS
 export const login = createAsyncThunk(
   "auth/login",
@@ -54,6 +42,19 @@ interface InitialState {
   isLoading: boolean
   isSuccess: boolean
   message: any
+  orderbyuser?: any
+}
+
+// Get User from local storage
+const getUserfromLocalStorage = localStorage.getItem("user")
+
+const initialState: InitialState = {
+  user: getUserfromLocalStorage ? JSON.parse(getUserfromLocalStorage) : null,
+  orders: [],
+  isError: false,
+  isLoading: false,
+  isSuccess: false,
+  message: "",
 }
 
 // REDUCER

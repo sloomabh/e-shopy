@@ -14,27 +14,18 @@ const jwt = require("jsonwebtoken");
 const sendEmail = require("./emailCtrl");
 
 // Create a User ***************************************************************************
-
 const createUser = asyncHandler(async (req, res) => {
-  /**
-   * Get the email from req.body
-   */
+  /** Get the email from req.body*/
   const email = req.body.email;
-  /**
-   With the help of email find the user exists or not
-   */
+  /**   With the help of email find the user exists or not */
   const findUser = await User.findOne({ email: email });
 
   if (!findUser) {
-    /**
-     if user not found user create a new user
-     */
+    /** if user not found user create a new user*/
     const newUser = await User.create(req.body);
     res.json(newUser);
   } else {
-    /**
-     if user found then thow an error: User already exists
-     */
+    /**  if user found then thow an error: User already exists  */
     throw new Error("User Already Exists");
   }
 });
@@ -494,7 +485,7 @@ const createOrder = asyncHandler(async (req, res) => {
   }
 });
 
-//  Get order  *******************************************************
+//  Get orderS  *******************************************************
 const getOrders = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   validateMongoDbId(_id);
