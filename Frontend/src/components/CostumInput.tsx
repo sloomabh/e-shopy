@@ -5,12 +5,18 @@ type CostumInputProps = {
   name: string
   placeholder: string
   classname?: string
+  value?: string
+  onChng?: any
+  onBlr?: string
 }
 const CostumInput = ({
   type,
   name,
   placeholder,
   classname,
+  value,
+  onChng,
+  onBlr,
 }: CostumInputProps) => {
   return (
     <div>
@@ -19,6 +25,9 @@ const CostumInput = ({
         name={name}
         placeholder={placeholder}
         className={`form-control ${classname}`}
+        value={value}
+        onChng={onChng}
+        onBlr={onBlr}
       />
     </div>
   )
