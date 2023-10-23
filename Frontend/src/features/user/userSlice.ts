@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import authService from "./userServices"
-import { UserInput, UserDefautType, OrdersDefautType } from "./UserType.dt"
+import { toast } from "react-toastify"
+import { UserInput, UserDefautType } from "./UserType.dt"
 
 // ACTIONS
 export const registerUser = createAsyncThunk(
@@ -47,8 +48,7 @@ export const getOrderByUser = createAsyncThunk(
 )
 */
 interface InitialState {
-  user: UserDefautType | null
-  orders: OrdersDefautType[]
+  CreatedUser: any
   isError: boolean
   isLoading: boolean
   isSuccess: boolean
@@ -56,12 +56,8 @@ interface InitialState {
   orderbyuser?: any
 }
 
-// Get User from local storage
-const getUserfromLocalStorage = localStorage.getItem("user")
-
 const initialState: InitialState = {
-  user: getUserfromLocalStorage ? JSON.parse(getUserfromLocalStorage) : null,
-  orders: [],
+  CreatedUser: "",
   isError: false,
   isLoading: false,
   isSuccess: false,
@@ -82,14 +78,20 @@ export const authSlice = createSlice({
         state.isError = false
         state.isLoading = false
         state.isSuccess = true
-        state.user = action.payload
+        state.CreatedUser = action.payload
         state.message = "success"
+        if (state.isSuccess === true) {
+          toast.info("User Created Successfully")
+        }
       })
       .addCase(registerUser.rejected, (state, action: PayloadAction<any>) => {
         state.isError = true
         state.isSuccess = false
         state.message = "Rejected"
         state.isLoading = false
+        if (state.isError === true) {
+          toast.info(action.error)
+        }
       })
     /* .addCase(login.pending, (state) => {
         state.isLoading = true

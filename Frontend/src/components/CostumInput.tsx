@@ -26,8 +26,8 @@ const CostumInput = ({
         placeholder={placeholder}
         className={`form-control ${classname}`}
         value={value}
-        onChng={onChng}
-        onBlr={onBlr}
+        onChange={onChng}
+        onBlur={onBlr}
       />
     </div>
   )

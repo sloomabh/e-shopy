@@ -5,9 +5,10 @@ import Container from "../../components/Container"
 import CostumInput from "../../components/CostumInput"
 import { useFormik } from "formik"
 import * as yup from "yup"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
 
 let signUpSchema = yup.object().shape({
-  firstname: yup.string().required("First Name is Required"),
+  firstName: yup.string().required("First Name is Required"),
 
   lastName: yup.string().required("Last Name is Required"),
 
@@ -22,6 +23,8 @@ let signUpSchema = yup.object().shape({
 })
 
 const Signup = () => {
+  const dispatch = useAppDispatch()
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -32,7 +35,7 @@ const Signup = () => {
     },
     validationSchema: signUpSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
+      dispatch(values)
     },
   })
 
@@ -55,8 +58,8 @@ const Signup = () => {
                   name="firstName"
                   placeholder="First Name"
                   value={formik.values.firstName}
-                  onChng={formik.handleChange("firstname")}
-                  onBlr={formik.handleBlur("firstname")}
+                  onChng={formik.handleChange("firstName")}
+                  onBlr={formik.handleBlur("firstName")}
                 />
                 <div className="error mt-2">
                   {formik.touched.firstName && formik.errors.firstName}
@@ -67,8 +70,8 @@ const Signup = () => {
                   name="lastName"
                   placeholder="Last name"
                   value={formik.values.lastName}
-                  onChng={formik.handleChange("lastname")}
-                  onBlr={formik.handleBlur("lastname")}
+                  onChng={formik.handleChange("lastName")}
+                  onBlr={formik.handleBlur("lastName")}
                 />
                 <div className="error mt-2">
                   {formik.touched.lastName && formik.errors.lastName}
