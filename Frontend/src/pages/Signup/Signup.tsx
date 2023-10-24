@@ -6,11 +6,12 @@ import CostumInput from "../../components/CostumInput"
 import { useFormik } from "formik"
 import * as yup from "yup"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { registerUser } from "../../features/user/userSlice"
 
 let signUpSchema = yup.object().shape({
-  firstName: yup.string().required("First Name is Required"),
+  firstname: yup.string().required("First Name is Required"),
 
-  lastName: yup.string().required("Last Name is Required"),
+  lastname: yup.string().required("Last Name is Required"),
 
   mobile: yup.string().required("Mobile is Required"),
 
@@ -27,15 +28,16 @@ const Signup = () => {
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
+      firstname: "",
+      lastname: "",
       mobile: "",
       email: "",
       password: "",
     },
     validationSchema: signUpSchema,
     onSubmit: (values) => {
-      dispatch(values)
+      //alert(JSON.stringify(values))
+      dispatch(registerUser(values))
     },
   })
 
@@ -57,24 +59,24 @@ const Signup = () => {
                   type="text"
                   name="firstName"
                   placeholder="First Name"
-                  value={formik.values.firstName}
-                  onChng={formik.handleChange("firstName")}
-                  onBlr={formik.handleBlur("firstName")}
+                  value={formik.values.firstname}
+                  onChng={formik.handleChange("firstname")}
+                  onBlr={formik.handleBlur("firstname")}
                 />
                 <div className="error mt-2">
-                  {formik.touched.firstName && formik.errors.firstName}
+                  {formik.touched.firstname && formik.errors.firstname}
                 </div>
 
                 <CostumInput
                   type="text"
-                  name="lastName"
+                  name="lastname"
                   placeholder="Last name"
-                  value={formik.values.lastName}
-                  onChng={formik.handleChange("lastName")}
-                  onBlr={formik.handleBlur("lastName")}
+                  value={formik.values.lastname}
+                  onChng={formik.handleChange("lastname")}
+                  onBlr={formik.handleBlur("lastname")}
                 />
                 <div className="error mt-2">
-                  {formik.touched.lastName && formik.errors.lastName}
+                  {formik.touched.lastname && formik.errors.lastname}
                 </div>
 
                 <CostumInput

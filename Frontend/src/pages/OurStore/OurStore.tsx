@@ -2,10 +2,12 @@ import BreadCrumb from "../../components/BreadCrumb"
 import Meta from "../../components/Meta"
 import "./ourstore-style.css"
 import ReactStars from "react-rating-stars-component"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ProductCard from "../../components/ProductCard/ProductCard"
 import Color from "../../components/Color/Color"
 import Container from "../../components/Container"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { getAllProducts } from "../../features/products/productSlice"
 
 const OurStore = () => {
   const [grid, setGrid] = useState<number>(4)
@@ -13,6 +15,18 @@ const OurStore = () => {
     setGrid(Grid) // Update the 'grid' state
     //  alert(Grid) // Show the updated 'grid' value
     //console.log(Grid) // Log the updated 'grid' value
+  }
+
+  const dispatch = useAppDispatch()
+  const productState = useAppSelector((state) => state.product.product)
+  console.log(productState)
+
+  useEffect(() => {
+    getProducts()
+  }, [])
+
+  const getProducts = () => {
+    dispatch(getAllProducts())
   }
 
   return (
@@ -290,12 +304,7 @@ const OurStore = () => {
             </div>
             <div className="products-list pb-5">
               <div className="d-flex gap-10 flex-wrap">
-                {" "}
-                <ProductCard grid={grid} />
-                <ProductCard grid={grid} />
-                <ProductCard grid={grid} />
-                <ProductCard grid={grid} />
-                <ProductCard grid={grid} />
+                <ProductCard data={productState} grid={grid} />
               </div>
             </div>
           </div>

@@ -14,8 +14,8 @@ export const registerUser = createAsyncThunk(
     }
   },
 )
-/*
-export const login = createAsyncThunk(
+
+export const loginUser = createAsyncThunk(
   "auth/login",
   async (user: UserInput, thunkAPI) => {
     try {
@@ -25,7 +25,7 @@ export const login = createAsyncThunk(
     }
   },
 )
-
+/*
 export const getOrders = createAsyncThunk(
   "order/get-orders",
   async (thunkAPI) => {
@@ -48,6 +48,7 @@ export const getOrderByUser = createAsyncThunk(
 )
 */
 interface InitialState {
+  user: any
   CreatedUser: any
   isError: boolean
   isLoading: boolean
@@ -57,6 +58,7 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
+  user: "",
   CreatedUser: "",
   isError: false,
   isLoading: false,
@@ -87,29 +89,37 @@ export const authSlice = createSlice({
       .addCase(registerUser.rejected, (state, action: PayloadAction<any>) => {
         state.isError = true
         state.isSuccess = false
-        state.message = "Rejected"
+        state.message = action.error
         state.isLoading = false
         if (state.isError === true) {
           toast.info(action.error)
         }
       })
-    /* .addCase(login.pending, (state) => {
+      .addCase(loginUser.pending, (state) => {
         state.isLoading = true
       })
-      .addCase(login.fulfilled, (state, action: PayloadAction<any>) => {
+      .addCase(loginUser.fulfilled, (state, action: PayloadAction<any>) => {
         state.isError = false
         state.isLoading = false
         state.isSuccess = true
         state.user = action.payload
         state.message = "success"
+
+        if (state.isSuccess === true) {
+          localStorage.setItem("Token", action.payload.token)
+          toast.info("User logged in  Successfully")
+        }
       })
-      .addCase(login.rejected, (state, action: PayloadAction<any>) => {
+      .addCase(loginUser.rejected, (state, action: PayloadAction<any>) => {
         state.isError = true
         state.isSuccess = false
-        state.message = "Rejected"
+        state.message = action.error
         state.isLoading = false
+        if (state.isError === true) {
+          toast.info(action.error)
+        }
       })
-      .addCase(getOrders.pending, (state) => {
+    /* .addCase(getOrders.pending, (state) => {
         state.isLoading = true
       })
       .addCase(getOrders.fulfilled, (state, action) => {

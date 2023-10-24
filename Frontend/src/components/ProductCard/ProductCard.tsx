@@ -8,71 +8,97 @@ import watch from "/watch.jpg"
 import watch2 from "/watch-01.jpg"
 import addcart from "/add-cart.svg"
 import view from "/view.svg"
+//import DOMPurify from "dompurify"
 
 type ProductCardProps = {
   grid?: number
+  data?: any
 }
-const ProductCard = ({ grid }: ProductCardProps) => {
+const ProductCard = (props: ProductCardProps) => {
+  const { data, grid } = props
+  console.log(data)
   let location = useLocation()
   /*  console.log(uselocation) */
+  //const sanitizedDescription = DOMPurify.sanitize(item?.description)
+
   return (
-    <div
-      className={`${location.pathname === "/product" ? `gr-${grid}` : "col-3"}`}
-    >
-      <Link
-        to={`${
-          location.pathname === "/"
-            ? "/product/:id"
-            : location.pathname === "/product/:id"
-            ? "/product/:id"
-            : ":id"
-        }`}
-        className="product-card position-relative"
-      >
-        <div className="wishlist-icon position-absolute">
-          <button className="border-0 bg-transparent">
-            <img src={wish} alt="wishlist" />
-          </button>
-        </div>
-        <div className="product-image">
-          <img src={watch} alt="product_image" className="img-fluid" />
-          <img src={watch2} alt="product_image" className="img-fluid" />
-        </div>
-        <div className="product-details">
-          <h6 className="brabd">Havels</h6>
-          <h5 className="product-title">
-            Kids headphones bulk 10 pack multi colored for stdents
-          </h5>
-          <ReactStars
-            count={5}
-            size={24}
-            edit={false}
-            value={3}
-            activeColor="#ffd700"
-          />
-          <p className={`description ${grid === 12 ? "d-block" : "d-none"}`}>
-            the main body of matter in a manuscript, book, newspaper, etc.,the
-            original words of an author or speaker, as opposed to a translation,
-            paraphrase, commentary, or the like:
-          </p>
-          <p className="price">$100.00</p>
-        </div>
-        <div className="action-bar position-absolute">
-          <div className="d-flex flex-column gap-15">
-            <button className="border-0 bg-transparent">
-              <img src={prodcompare} alt="compare" />
-            </button>
-            <button className="border-0 bg-transparent">
-              <img src={view} alt="view" />
-            </button>
-            <button className="border-0 bg-transparent">
-              <img src={addcart} alt="addcart" />
-            </button>
+    <>
+      {data?.map((item, index) => {
+        return (
+          <div
+            key={index}
+            className={`${
+              location.pathname === "/product" ? `gr-${grid}` : "col-3"
+            }`}
+          >
+            <Link
+              to={`${
+                location.pathname === "/"
+                  ? "/product/:id"
+                  : location.pathname === "/product/:id"
+                  ? "/product/:id"
+                  : ":id"
+              }`}
+              className="product-card position-relative"
+            >
+              <div className="wishlist-icon position-absolute">
+                <button className="border-0 bg-transparent">
+                  <img src={wish} alt="wishlist" />
+                </button>
+              </div>
+              <div className="product-image">
+                <img
+                  src={item?.images[0].url}
+                  alt="product_image"
+                  className="img-fluid"
+                />
+                <img src={watch2} alt="product_image" className="img-fluid" />
+              </div>
+              <div className="product-details">
+                <h6 className="brand">{item?.brand}</h6>
+                <h5 className="product-title">{item?.title}</h5>
+                <ReactStars
+                  count={5}
+                  size={24}
+                  edit={false}
+                  value={item?.totalrating.toString()}
+                  activeColor="#ffd700"
+                />
+                <p
+                  className={`description ${
+                    grid === 12 ? "d-block" : "d-none"
+                  }`}
+                  /*   dangerouslySetInnerHTML={{ __html: item?.description }}*/
+                  /*  dangerouslySetInnerHTML={{ __html: sanitizedDescription }}*/
+                >
+                  {item?.description}
+                </p>
+                <p className="price">${item?.price}</p>
+              </div>
+              <div className="action-bar position-absolute">
+                <div className="d-flex flex-column gap-15">
+                  <button className="border-0 bg-transparent">
+                    <img src={prodcompare} alt="compare" />
+                  </button>
+                  <button className="border-0 bg-transparent">
+                    <img src={view} alt="view" />
+                  </button>
+                  <button className="border-0 bg-transparent">
+                    <img src={addcart} alt="addcart" />
+                  </button>
+                </div>
+              </div>
+            </Link>
           </div>
-        </div>
-      </Link>
-    </div>
+        )
+      })}
+    </>
   )
 }
 
 export default ProductCard
+/* 
+ item.descriptioon: the main body of matter in a manuscript,
+                  book, newspaper, etc.,the original words of an author or
+                  speaker, as opposed to a translation, paraphrase, commentary,
+                  or the like:*/
