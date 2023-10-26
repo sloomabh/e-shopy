@@ -15,9 +15,11 @@ interface InitialState {
   isSuccess: boolean
   message: any
   createdProduct?: any
+  addTowishlist?: any
 }
 
 //Actions
+
 export const getAllProducts = createAsyncThunk(
   "product/get-products",
   async (thunkAPI) => {
@@ -29,6 +31,16 @@ export const getAllProducts = createAsyncThunk(
   },
 )
 
+export const addToWishlist = createAsyncThunk(
+  "product/wishlist",
+  async (prodId, thunkAPI) => {
+    try {
+      return await productService.addToWishlist(prodId)
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  },
+)
 export const resetState = createAction("Reset_all")
 
 const initialState: InitialState = {
@@ -63,6 +75,21 @@ export const productSlice = createSlice({
         state.isError = true
         state.isSuccess = false
         state.message = action.error
+      })
+      .addCase(addToWishlist.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(addToWishlist.fulfilled, (state, action: PayloadAction<any>) => {
+        state.isLoading = false
+        state.isError = false
+        state.isSuccess = true
+        state.addTowishlist = action.payload
+      })
+      .addCase(addToWishlist.rejected, (state, action: PayloadAction<any>) => {
+        state.isLoading = false
+        state.isError = true
+        state.isSuccess = false
+        state.message = "Product Added to Wishlist"
       })
 
       .addCase(resetState, () => initialState)

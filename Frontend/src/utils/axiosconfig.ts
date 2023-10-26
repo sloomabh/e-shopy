@@ -1,4 +1,4 @@
-const getTokenFromLocalStorage = localStorage.getItem("user")
+const getTokenFromLocalStorage = localStorage.getItem("customer")
 
 export const config = {
   headers: {

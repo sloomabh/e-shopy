@@ -9,6 +9,8 @@ import watch2 from "/watch-01.jpg"
 import addcart from "/add-cart.svg"
 import view from "/view.svg"
 //import DOMPurify from "dompurify"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { addToWishlist } from "../../features/products/productSlice"
 
 type ProductCardProps = {
   grid?: number
@@ -20,6 +22,11 @@ const ProductCard = (props: ProductCardProps) => {
   let location = useLocation()
   /*  console.log(uselocation) */
   //const sanitizedDescription = DOMPurify.sanitize(item?.description)
+
+  const dispatch = useAppDispatch()
+  const addToWish = (id) => {
+    dispatch(addToWishlist(id))
+  }
 
   return (
     <>
@@ -42,7 +49,12 @@ const ProductCard = (props: ProductCardProps) => {
               className="product-card position-relative"
             >
               <div className="wishlist-icon position-absolute">
-                <button className="border-0 bg-transparent">
+                <button
+                  className="border-0 bg-transparent"
+                  onClick={(e) => {
+                    addToWish(item?._id)
+                  }}
+                >
                   <img src={wish} alt="wishlist" />
                 </button>
               </div>

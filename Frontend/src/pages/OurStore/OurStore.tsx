@@ -18,13 +18,11 @@ const OurStore = () => {
   }
 
   const dispatch = useAppDispatch()
-  const productState = useAppSelector((state) => state.product.product)
-  console.log(productState)
-
+  const productState = useAppSelector((state) => state?.product?.product)
+  // console.log(productState)
   useEffect(() => {
     getProducts()
   }, [])
-
   const getProducts = () => {
     dispatch(getAllProducts())
   }

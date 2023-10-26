@@ -25,28 +25,18 @@ export const loginUser = createAsyncThunk(
     }
   },
 )
-/*
-export const getOrders = createAsyncThunk(
-  "order/get-orders",
+
+export const getUserProductWishlist = createAsyncThunk(
+  "user/wishlist",
   async (thunkAPI) => {
     try {
-      return await authService.getOrders()
-    } catch (error) {
+      return await authService.getUserWishlist()
+    } catch (error: any) {
       return thunkAPI.rejectWithValue(error)
     }
   },
 )
-export const getOrderByUser = createAsyncThunk(
-  "order/get-order",
-  async (id, thunkAPI) => {
-    try {
-      return await authService.getOrder(id)
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error)
-    }
-  },
-)
-*/
+
 interface InitialState {
   user: any
   CreatedUser: any
@@ -55,10 +45,14 @@ interface InitialState {
   isSuccess: boolean
   message: any
   orderbyuser?: any
+  wishlist?: any
 }
 
+// Get User from local storage
+const getUserfromLocalStorage = localStorage.getItem("customer")
+
 const initialState: InitialState = {
-  user: "",
+  user: getUserfromLocalStorage ? JSON.parse(getUserfromLocalStorage) : null,
   CreatedUser: "",
   isError: false,
   isLoading: false,
@@ -119,6 +113,28 @@ export const authSlice = createSlice({
           toast.info(action.error)
         }
       })
+      .addCase(getUserProductWishlist.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(
+        getUserProductWishlist.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.isError = false
+          state.isLoading = false
+          state.isSuccess = true
+          state.wishlist = action.payload
+          state.message = "success"
+        },
+      )
+      .addCase(
+        getUserProductWishlist.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.isError = true
+          state.isSuccess = false
+          state.message = action.error
+          state.isLoading = false
+        },
+      )
     /* .addCase(getOrders.pending, (state) => {
         state.isLoading = true
       })

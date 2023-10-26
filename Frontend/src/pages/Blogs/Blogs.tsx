@@ -1,9 +1,22 @@
 import Meta from "../../components/Meta"
+import { useEffect } from "react"
 import BreadCrumb from "../../components/BreadCrumb"
 import BlogCard from "../../components/BlogCard/BlogCard"
 import Container from "../../components/Container"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { getAllBlogs } from "../../features/blogs/blogSlice"
+import moment from "moment"
 
 const Blogs = () => {
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    getAllBlogsFromDb()
+  }, [])
+  const getAllBlogsFromDb = () => {
+    dispatch(getAllBlogs())
+  }
+  const blogsState = useAppSelector((state) => state?.blog?.blogs)
+  console.log(blogsState)
   return (
     <>
       <Meta title={"Blogs"} />
@@ -25,18 +38,21 @@ const Blogs = () => {
           </div>
           <div className="col-9">
             <div className="row">
-              <div className="col-6 mb-3">
-                <BlogCard />
-              </div>
-              <div className="col-6 mb-3">
-                <BlogCard />
-              </div>
-              <div className="col-6 mb-3">
-                <BlogCard />
-              </div>
-              <div className="col-6 mb-3">
-                <BlogCard />
-              </div>
+              {blogsState?.map((item, index) => {
+                return (
+                  <div className="col-6 mb-3" key={index}>
+                    <BlogCard
+                      id={item?._id}
+                      title={item?.title}
+                      description={item?.description}
+                      image={item?.images[0]?.url}
+                      date={moment(item?.createdAt).format(
+                        "MMMM Do YYYY, h:mm:ss a",
+                      )}
+                    />
+                  </div>
+                )
+              })}
             </div>
           </div>
         </div>

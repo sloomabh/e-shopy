@@ -1,18 +1,16 @@
 import "./BlogCard-style.css"
 import { Link } from "react-router-dom"
-const BlogCard = () => {
+
+const BlogCard = ({ id, title, description, image, date }) => {
   return (
     <div className="blog-card">
       <div className="card-image">
-        <img src="./src/images/blog-1.jpg" alt="blog" className="img-fluid" />
+        <img src={image} alt="blog" className="img-fluid" />
       </div>
       <div className="blog-content">
-        <p className="date">1 Dec, 2022</p>
-        <h5 className="title">A beautiful sunday morning renaissance</h5>
-        <p className="desc">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard .
-        </p>
+        <p className="date">{date}</p>
+        <h5 className="title">{title}</h5>
+        <p className="desc" dangerouslySetInnerHTML={__html:description.<i class="fa fa-subscript" aria-hidden="true"></i>}>{description}</p>
         <Link to="/blog/:id" className="button">
           Read More
         </Link>
