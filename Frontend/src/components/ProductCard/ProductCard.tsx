@@ -8,7 +8,7 @@ import watch from "/watch.jpg"
 import watch2 from "/watch-01.jpg"
 import addcart from "/add-cart.svg"
 import view from "/view.svg"
-//import DOMPurify from "dompurify"
+
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { addToWishlist } from "../../features/products/productSlice"
 
@@ -21,7 +21,6 @@ const ProductCard = (props: ProductCardProps) => {
   console.log(data)
   let location = useLocation()
   /*  console.log(uselocation) */
-  //const sanitizedDescription = DOMPurify.sanitize(item?.description)
 
   const dispatch = useAppDispatch()
   const addToWish = (id) => {
@@ -80,11 +79,8 @@ const ProductCard = (props: ProductCardProps) => {
                   className={`description ${
                     grid === 12 ? "d-block" : "d-none"
                   }`}
-                  /*   dangerouslySetInnerHTML={{ __html: item?.description }}*/
-                  /*  dangerouslySetInnerHTML={{ __html: sanitizedDescription }}*/
-                >
-                  {item?.description}
-                </p>
+                  dangerouslySetInnerHTML={{ __html: item?.description }}
+                ></p>
                 <p className="price">${item?.price}</p>
               </div>
               <div className="action-bar position-absolute">

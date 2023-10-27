@@ -10,8 +10,13 @@ const BlogCard = ({ id, title, description, image, date }) => {
       <div className="blog-content">
         <p className="date">{date}</p>
         <h5 className="title">{title}</h5>
-        <p className="desc" dangerouslySetInnerHTML={__html:description.<i class="fa fa-subscript" aria-hidden="true"></i>}>{description}</p>
-        <Link to="/blog/:id" className="button">
+        <p
+          className="desc"
+          dangerouslySetInnerHTML={{
+            __html: description,
+          }}
+        ></p>
+        <Link to={`/blog/${id}`} className="button">
           Read More
         </Link>
       </div>

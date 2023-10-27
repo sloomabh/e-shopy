@@ -1,15 +1,31 @@
 import Meta from "../../components/Meta"
+import { useEffect } from "react"
 import BreadCrumb from "../../components/BreadCrumb"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import "./singleblog-style.css"
 import { HiOutlineArrowLeft } from "react-icons/hi"
 import blog from "/blog-1.jpg"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { getABlog } from "../../features/blogs/blogSlice"
+import { useSelector } from "react-redux"
 
 const SingleBlog = () => {
+  const location = useLocation()
+  const dispatch = useAppDispatch()
+  const blogState = useAppSelector((state) => state?.blog?.singleBlog)
+  const getBlogId = location.pathname.split("/")[2]
+
+  useEffect(() => {
+    getBlogFromDb()
+  }, [])
+  const getBlogFromDb = () => {
+    dispatch(getABlog(getBlogId))
+  }
+
   return (
     <>
-      <Meta title={"Dynamic Blog Name"} />
-      <BreadCrumb title="Dynamic Blog Name" />
+      <Meta title={blogState?.title} />
+      <BreadCrumb title={blogState?.title} />
       <div className="blog-wrapper home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="row">
@@ -19,17 +35,19 @@ const SingleBlog = () => {
                   <HiOutlineArrowLeft className="fs-5" />
                   Go back to Blogs
                 </Link>
-                <h3 className="title">
-                  A beautiful Sunday Morning Renaissance
-                </h3>
-                <img src={blog} alt="blog" className="img-fluid w-100 my-4" />
-                <p>
-                  You are only as good as your last collection , which is an
-                  enormous pressure . Ihink there is something about luxury -
-                  It's not something people need, but its wkat they want .It
-                  really pulls at their heart.I have a fantastic relationship
-                  with money.(6:27:07)
-                </p>
+                <h3 className="title">{blogState?.title}</h3>
+                <img
+                  src={
+                    blogState?.images[0].url ? blogState?.images[0].url : blog
+                  }
+                  alt="blog"
+                  className="img-fluid w-100 my-4"
+                />
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: blogState?.description,
+                  }}
+                ></p>
               </div>
             </div>
           </div>

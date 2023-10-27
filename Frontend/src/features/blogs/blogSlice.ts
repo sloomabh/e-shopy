@@ -30,6 +30,7 @@ interface InitialState {
   isLoading: boolean
   isSuccess: boolean
   message: any
+  singleBlog: any
 }
 
 const initialState: InitialState = {
@@ -69,6 +70,7 @@ export const blogSlice = createSlice({
         state.isLoading = false
         state.isError = false
         state.isSuccess = true
+        state.singleBlog = action.payload
       })
       .addCase(getABlog.rejected, (state, action) => {
         state.isLoading = false

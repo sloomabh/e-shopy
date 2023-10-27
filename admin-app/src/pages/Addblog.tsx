@@ -3,7 +3,6 @@ import CustomInput from "../components/CustomInput"
 import ReactQuill from "react-quill"
 import "react-quill/dist/quill.snow.css"
 import Dropzone from "react-dropzone"
-import { delImg, uploadImg } from "../features/upload/uploadSlice"
 import { toast } from "react-toastify"
 import * as yup from "yup"
 import { useLocation, useNavigate } from "react-router-dom"
@@ -15,6 +14,8 @@ import {
   resetState,
   updateABlog,
 } from "../features/blogs/blogSlice"
+
+import { delImg, uploadImg } from "../features/upload/uploadSlice"
 import { getCategories } from "../features/bcategory/bcategorySlice"
 
 let schema = yup.object().shape({
@@ -31,6 +32,7 @@ const Addblog = () => {
   const imgState = useAppSelector((state) => state.upload.images)
   const bCatState = useAppSelector((state) => state.bCategory.bCategories)
   const blogState = useAppSelector((state) => state.blogs)
+  const [img, setImg] = useState([])
 
   const {
     isSuccess,
@@ -47,15 +49,13 @@ const Addblog = () => {
   useEffect(() => {
     if (getBlogId !== undefined) {
       dispatch(getABlog(getBlogId))
-      img.push(blogImages)
     } else {
       dispatch(resetState())
     }
   }, [getBlogId])
-
+  console.log(blogState)
   /********* GET BLOG CATEGORIES  ********************* */
   useEffect(() => {
-    //  dispatch(resetState())
     dispatch(getCategories())
   }, [])
   /****************************************** */
@@ -74,19 +74,21 @@ const Addblog = () => {
   }, [isSuccess, isError, isLoading])
 
   /***************** UPLOAD IMAGE ****************************** */
-  const img = []
-  imgState.forEach((i) => {
-    img.push({
+  useEffect(() => {
+    const updatedImages = imgState.map((i) => ({
       public_id: i.public_id,
       url: i.url,
-    })
-  })
-  console.log(img)
+    }))
+    setImg(updatedImages)
+    formik.values.images = updatedImages
+  }, [imgState])
+  console.log(imgState)
   /************************************************ */
-
+  /*
   useEffect(() => {
     formik.values.images = img
   }, [])
+*/
   /********************************************************* */
   const formik = useFormik({
     enableReinitialize: true,
@@ -94,13 +96,14 @@ const Addblog = () => {
       title: blogName || "",
       description: blogDesc || "",
       category: blogCategory || "",
-      images: blogImages || "",
+      images: blogImages || [],
     },
     validationSchema: schema,
     onSubmit: (values) => {
       if (getBlogId !== undefined) {
         const data = { id: getBlogId, blogData: values }
         dispatch(updateABlog(data))
+        console.log(data)
         dispatch(resetState())
       } else {
         dispatch(createBlogs(values))

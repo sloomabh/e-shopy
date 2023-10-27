@@ -16,7 +16,7 @@ const Blogs = () => {
     dispatch(getAllBlogs())
   }
   const blogsState = useAppSelector((state) => state?.blog?.blogs)
-  console.log(blogsState)
+  //console.log(blogsState)
   return (
     <>
       <Meta title={"Blogs"} />
@@ -38,21 +38,22 @@ const Blogs = () => {
           </div>
           <div className="col-9">
             <div className="row">
-              {blogsState?.map((item, index) => {
-                return (
-                  <div className="col-6 mb-3" key={index}>
-                    <BlogCard
-                      id={item?._id}
-                      title={item?.title}
-                      description={item?.description}
-                      image={item?.images[0]?.url}
-                      date={moment(item?.createdAt).format(
-                        "MMMM Do YYYY, h:mm:ss a",
-                      )}
-                    />
-                  </div>
-                )
-              })}
+              {blogsState &&
+                blogsState?.map((item, index) => {
+                  return (
+                    <div className="col-6 mb-3" key={index}>
+                      <BlogCard
+                        id={item?._id}
+                        title={item?.title}
+                        description={item?.description}
+                        image={item?.images[0]?.url}
+                        date={moment(item?.createdAt).format(
+                          "MMMM Do YYYY, h:mm:ss a",
+                        )}
+                      />
+                    </div>
+                  )
+                })}
             </div>
           </div>
         </div>

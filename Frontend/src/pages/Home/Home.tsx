@@ -1,11 +1,15 @@
 import { Link } from "react-router-dom"
 import Marquee from "react-fast-marquee"
+import { useEffect } from "react"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import BlogCard from "../../components/BlogCard/BlogCard"
 import "./home-style.css"
 import ProductCard from "../../components/ProductCard/ProductCard"
 import SpecialProduct from "../../components/SpecialProduct/SpecialProduct"
 import Container from "../../components/Container"
 import { services } from "../../utils/Data"
+
+import { getAllBlogs } from "../../features/blogs/blogSlice"
 
 const Home = () => {
   return (
