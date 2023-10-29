@@ -10,8 +10,28 @@ import Container from "../../components/Container"
 import { services } from "../../utils/Data"
 
 import { getAllBlogs } from "../../features/blogs/blogSlice"
+import { getAllProducts } from "../../features/products/productSlice"
+import moment from "moment"
 
 const Home = () => {
+  const dispatch = useAppDispatch()
+  const blogsState = useAppSelector((state) => state?.blog?.blogs)
+  const productsState = useAppSelector((state) => state?.product?.product)
+  console.log(productsState)
+
+  useEffect(() => {
+    getAllBlogsFromDb()
+    getProductsFromDb()
+  }, [])
+
+  const getAllBlogsFromDb = () => {
+    dispatch(getAllBlogs())
+  }
+
+  const getProductsFromDb = () => {
+    dispatch(getAllProducts())
+  }
+
   return (
     <>
       <Container classI="home-wrapper-1 py-5">
@@ -301,9 +321,22 @@ const Home = () => {
               <h3 className="section-heading">Special Products</h3>
             </div>
             <div className="row gap-0">
-              <SpecialProduct />
-              <SpecialProduct />
-              <SpecialProduct />
+              {productsState &&
+                productsState?.map((item, index) => {
+                  if (item.tags === "special") {
+                    return (
+                      <SpecialProduct
+                        key={index}
+                        title={item?.title}
+                        brand={item?.brand}
+                        totalrating={item?.totalrating.toString()}
+                        price={item?.price}
+                        sold={item?.sold}
+                        quantity={item?.quantity}
+                      />
+                    )
+                  }
+                })}
             </div>
           </div>
         </div>
@@ -365,18 +398,24 @@ const Home = () => {
           </div>
 
           <div className="row">
-            <div className="col-3">
-              <BlogCard />
-            </div>
-            <div className="col-3">
-              <BlogCard />
-            </div>
-            <div className="col-3">
-              <BlogCard />
-            </div>
-            <div className="col-3">
-              <BlogCard />
-            </div>
+            {blogsState &&
+              blogsState?.map((item, index) => {
+                if (index < 4) {
+                  return (
+                    <div className="col-3 " key={index}>
+                      <BlogCard
+                        id={item?._id}
+                        title={item?.title}
+                        description={item?.description}
+                        image={item?.images[0]?.url}
+                        date={moment(item?.createdAt).format(
+                          "MMMM Do YYYY, h:mm:ss a",
+                        )}
+                      />
+                    </div>
+                  )
+                }
+              })}
           </div>
         </div>
       </Container>

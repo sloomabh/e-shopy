@@ -2,7 +2,14 @@ import "./specialProduct-style.css"
 import { Link } from "react-router-dom"
 import ReactStars from "react-rating-stars-component"
 
-const SpecialProduct = () => {
+const SpecialProduct = ({
+  title,
+  brand,
+  totalrating,
+  price,
+  sold,
+  quantity,
+}) => {
   return (
     <div className="col-6 mb-3">
       <div className="special-product-card">
@@ -15,9 +22,9 @@ const SpecialProduct = () => {
             />
           </div>
           <div className="special-product-content">
-            <h5 className="brand">Havels</h5>
+            <h5 className="brand"> {brand}</h5>
             <h6 className="title">
-              Samsung Galaxy Note10+
+              {title}
               <br />
               Mobile Phone,Sim..
             </h6>
@@ -25,12 +32,12 @@ const SpecialProduct = () => {
               count={5}
               size={24}
               edit={false}
-              value={3}
+              value={totalrating}
               activeColor="#ffd700"
             />
             <p className="price">
               <span className="red-p">
-                $100.00 &nbsp; <s>$150.0</s>
+                ${price} &nbsp; <s>$150.0</s>
               </span>
             </p>
             <div className="discount-till d-flex align-items-center gap-10">
@@ -52,7 +59,7 @@ const SpecialProduct = () => {
                   style={{ width: "50%" }}
                   aria-valuenow={25}
                   aria-valuemin={0}
-                  aria-valuemax={100}
+                  aria-valuemax={quantity}
                 ></div>
               </div>
             </div>

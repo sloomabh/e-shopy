@@ -18,7 +18,7 @@ type ProductCardProps = {
 }
 const ProductCard = (props: ProductCardProps) => {
   const { data, grid } = props
-  console.log(data)
+  // console.log(data)
   let location = useLocation()
   /*  console.log(uselocation) */
 
