@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import Marquee from "react-fast-marquee"
 import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
@@ -8,6 +8,16 @@ import ProductCard from "../../components/ProductCard/ProductCard"
 import SpecialProduct from "../../components/SpecialProduct/SpecialProduct"
 import Container from "../../components/Container"
 import { services } from "../../utils/Data"
+
+import "../../components/ProductCard/ProductCard-style.css"
+import ReactStars from "react-rating-stars-component"
+import prodcompare from "/prodcompare.svg"
+import wish from "/wish.svg"
+import watch from "/watch.jpg"
+import watch2 from "/watch-01.jpg"
+import addcart from "/add-cart.svg"
+import view from "/view.svg"
+import { addToWishlist } from "../../features/products/productSlice"
 
 import { getAllBlogs } from "../../features/blogs/blogSlice"
 import { getAllProducts } from "../../features/products/productSlice"
@@ -30,6 +40,10 @@ const Home = () => {
 
   const getProductsFromDb = () => {
     dispatch(getAllProducts())
+  }
+
+  const addToWish = (id) => {
+    dispatch(addToWishlist(id))
   }
 
   return (
@@ -349,10 +363,80 @@ const Home = () => {
           </div>
         </div>
         <div className="row">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          {productsState &&
+            productsState?.map((item, index) => {
+              if (item.tags === "popular") {
+                return (
+                  <div key={index} className="col-3">
+                    <Link
+                      /* to={`${
+                        location.pathname === "/"
+                          ? "/product/:id"
+                          : location.pathname === "/product/:id"
+                          ? "/product/:id"
+                          : ":id"
+                      }`}*/
+                      className="product-card position-relative"
+                    >
+                      <div className="wishlist-icon position-absolute">
+                        <button
+                          className="border-0 bg-transparent"
+                          onClick={(e) => {
+                            addToWish(item?._id)
+                          }}
+                        >
+                          <img
+                            src={wish}
+                            alt="wishlist"
+                            style={{
+                              zIndex: "2",
+                            }}
+                          />
+                        </button>
+                      </div>
+                      <div className="product-image">
+                        <img
+                          src={item?.images[0].url}
+                          alt="product_image"
+                          className="img-fluid"
+                        />
+                        <img
+                          src={watch2}
+                          alt="product_image"
+                          className="img-fluid"
+                        />
+                      </div>
+                      <div className="product-details">
+                        <h6 className="brand">{item?.brand}</h6>
+                        <h5 className="product-title">{item?.title}</h5>
+                        <ReactStars
+                          count={5}
+                          size={24}
+                          edit={false}
+                          value={item?.totalrating.toString()}
+                          activeColor="#ffd700"
+                        />
+
+                        <p className="price">${item?.price}</p>
+                      </div>
+                      <div className="action-bar position-absolute">
+                        <div className="d-flex flex-column gap-15">
+                          <button className="border-0 bg-transparent">
+                            <img src={prodcompare} alt="compare" />
+                          </button>
+                          <button className="border-0 bg-transparent">
+                            <img src={view} alt="view" />
+                          </button>
+                          <button className="border-0 bg-transparent">
+                            <img src={addcart} alt="addcart" />
+                          </button>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                )
+              }
+            })}
         </div>
       </Container>
 

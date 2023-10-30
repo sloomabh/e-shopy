@@ -10,6 +10,7 @@ const SpecialProduct = ({
   sold,
   quantity,
 }) => {
+  console.log(quantity / quantity + sold * 100)
   return (
     <div className="col-6 mb-3">
       <div className="special-product-card">
@@ -56,10 +57,10 @@ const SpecialProduct = ({
                 <div
                   className="progress-bar"
                   role="progressbar"
-                  style={{ width: "50%" }}
-                  aria-valuenow={25}
-                  aria-valuemin={0}
-                  aria-valuemax={quantity}
+                  style={{ width: quantity / quantity + sold * 100 + "%" }}
+                  aria-valuenow={quantity / quantity + sold * 100}
+                  aria-valuemin={quantity}
+                  aria-valuemax={quantity + sold}
                 ></div>
               </div>
             </div>

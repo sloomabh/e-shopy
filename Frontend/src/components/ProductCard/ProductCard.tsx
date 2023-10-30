@@ -3,13 +3,12 @@ import "./ProductCard-style.css"
 import ReactStars from "react-rating-stars-component"
 import prodcompare from "/prodcompare.svg"
 import wish from "/wish.svg"
-//import wishlist from "/wishlist.svg"
 import watch from "/watch.jpg"
 import watch2 from "/watch-01.jpg"
 import addcart from "/add-cart.svg"
 import view from "/view.svg"
 
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { useAppDispatch } from "../../app/hooks"
 import { addToWishlist } from "../../features/products/productSlice"
 
 type ProductCardProps = {
@@ -18,9 +17,7 @@ type ProductCardProps = {
 }
 const ProductCard = (props: ProductCardProps) => {
   const { data, grid } = props
-  // console.log(data)
   let location = useLocation()
-  /*  console.log(uselocation) */
 
   const dispatch = useAppDispatch()
   const addToWish = (id) => {
