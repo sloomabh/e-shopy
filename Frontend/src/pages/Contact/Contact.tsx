@@ -9,6 +9,7 @@ import CostumInput from "../../components/CostumInput"
 import * as yup from "yup"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { useFormik } from "formik"
+import { createQuery } from "../../features/contact/contactSlice"
 
 let contactSchema = yup.object().shape({
   name: yup.string().required("name is Required"),
@@ -31,8 +32,8 @@ const Contact = () => {
     },
     validationSchema: contactSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values))
-      // dispatch(loginUser(values))
+      //  alert(JSON.stringify(values))
+      dispatch(createQuery(values))
     },
   })
 
@@ -109,12 +110,12 @@ const Contact = () => {
                       className="w-100 form-control"
                       placeholder="Comment"
                       value={formik.values.comment}
-                      onChng={formik.handleChange("comment")}
+                      onChange={formik.handleChange("comment")}
                       onBlur={formik.handleBlur("comment")}
                     />
                   </div>
                   <div className="error mt-2">
-                    {formik.touched.comments && formik.errors.comments}
+                    {formik.touched.comment && formik.errors.comment}
                   </div>
 
                   <div>

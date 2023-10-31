@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit"
 import postQuery from "./contactService"
+import { toast } from "react-toastify"
 //import { EnqueryDefautType } from "./enquiryType.dt"
 
 export const createQuery = createAsyncThunk(
   "contact/post",
   async (contatData, thunkAPI) => {
     try {
-      return await postQuery.getEnquiries(contatData)
+      return await postQuery.postQuery(contatData)
     } catch (error) {
       return thunkAPI.rejectWithValue(error)
     }
@@ -45,12 +46,18 @@ export const contactSlice = createSlice({
         state.isError = false
         state.isSuccess = true
         state.contact = action.payload
+        if (state.isSuccess) {
+          toast.success("Contact form  submitted Successfullly!")
+        }
       })
       .addCase(createQuery.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.isSuccess = false
         state.message = action.error
+        if (state.isError) {
+          toast.error("Something went wrong!")
+        }
       })
 
       .addCase(resetState, () => initialState)

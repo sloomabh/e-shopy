@@ -9,6 +9,7 @@ const SpecialProduct = ({
   price,
   sold,
   quantity,
+  id,
 }) => {
   console.log(quantity / quantity + sold * 100)
   return (
@@ -64,8 +65,8 @@ const SpecialProduct = ({
                 ></div>
               </div>
             </div>
-            <Link to="/" className="button">
-              Add to Cart
+            <Link to={"/product/" + id} className="button">
+              View
             </Link>
           </div>
         </div>

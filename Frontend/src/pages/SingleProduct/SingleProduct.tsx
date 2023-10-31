@@ -1,4 +1,6 @@
-import React, { useState } from "react"
+import { useState, useEffect } from "react"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 
 import Meta from "../../components/Meta"
 import BreadCrumb from "../../components/BreadCrumb"
@@ -10,12 +12,36 @@ import Color from "../../components/Color/Color"
 import { TbGitCompare } from "react-icons/tb"
 import { AiOutlineHeart } from "react-icons/ai"
 import Container from "../../components/Container"
+import { getAProduct } from "../../features/products/productSlice"
 
 //import { Link } from "react-router-dom"
 const SingleProduct = () => {
+  const dispatch = useAppDispatch()
+  const location = useLocation()
+  const getProductId = location.pathname.split("/")[2]
+  const productState = useAppSelector((state) => state.product.product)
+
+  // console.log(productState.images[0].url)
+  const totalRating = productState?.totalrating
+
+  useEffect(() => {
+    getAproductFromDb()
+  }, [])
+
+  const getAproductFromDb = () => {
+    dispatch(getAProduct(getProductId))
+  }
+
+  const props = {
+    width: 400,
+    height: 500,
+    zoomWidth: 500,
+    img: `${productState?.images[0]?.url}`,
+  }
+
   const [orderedProduct, setorderdProduct] = useState<Boolean>(true)
   const copyToClipboard = (text: string) => {
-    console.log("text", text)
+    //  console.log("text", text)
     var textField = document.createElement("textarea")
     textField.innerText = text
     document.body.appendChild(textField)
@@ -23,13 +49,7 @@ const SingleProduct = () => {
     document.execCommand("copy")
     textField.remove()
   }
-  //7:18:00
-  const props = {
-    width: 400,
-    height: 500,
-    zoomWidth: 500,
-    img: "https://media.wired.com/photos/64065938a358b3e8164ac998/2:3/w_1200,h_1800,c_limit/Nomad-DesignLab-Apple-Watch-Accessories-Gear.jpg",
-  }
+
   return (
     <>
       <Meta title={"Product name "} />
@@ -43,44 +63,27 @@ const SingleProduct = () => {
               </div>
             </div>
             <div className="other-product-images d-flex flex-wrap gap-15">
-              <div>
-                <img
-                  src="https://media.wired.com/photos/64065938a358b3e8164ac998/2:3/w_1200,h_1800,c_limit/Nomad-DesignLab-Apple-Watch-Accessories-Gear.jpg"
-                  alt="watch"
-                  className="img-fluid"
-                />
-              </div>
-              <div>
-                <img
-                  src="https://media.wired.com/photos/64065938a358b3e8164ac998/2:3/w_1200,h_1800,c_limit/Nomad-DesignLab-Apple-Watch-Accessories-Gear.jpg"
-                  alt="watch"
-                  className="img-fluid"
-                />
-              </div>
-              <div>
-                <img
-                  src="https://media.wired.com/photos/64065938a358b3e8164ac998/2:3/w_1200,h_1800,c_limit/Nomad-DesignLab-Apple-Watch-Accessories-Gear.jpg"
-                  alt="watch"
-                  className="img-fluid"
-                />
-              </div>
+              {productState?.images.map((item, index) => (
+                <div key={index}>
+                  <img src={item?.url} alt="watch" className="img-fluid" />
+                </div>
+              ))}
             </div>
           </div>
+
           <div className="col-6 bg-white">
             <div className="main-product-details">
               <div className="border-bottom">
-                <h3 className="title">
-                  Kids Headphones Bulk 10 Pack Multi colored For Students
-                </h3>
+                <h3 className="title">{productState?.title}</h3>
               </div>
               <div className="border-bottom py-3">
-                <p className="price">$ 100</p>
+                <p className="price">$ {productState?.price}</p>
                 <div className="d-flex align-items-center gap-10">
                   <ReactStars
                     count={5}
                     size={24}
                     edit={false}
-                    value={3}
+                    value={totalRating}
                     activeColor="#ffd700"
                   />
                   <p className="mb-0 t-review">( 2 Reviews )</p>
@@ -96,15 +99,15 @@ const SingleProduct = () => {
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Brand :</h3>
-                  <p className="product-data">Heavels</p>
+                  <p className="product-data">{productState?.brand}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Category :</h3>
-                  <p className="product-data">Watch</p>
+                  <p className="product-data">{productState?.category}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Tags :</h3>
-                  <p className="product-data">watch</p>
+                  <p className="product-data">{productState?.tags}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Availability :</h3>
@@ -178,9 +181,7 @@ const SingleProduct = () => {
                   <a
                     href="javascript:void(0);"
                     onClick={() => {
-                      copyToClipboard(
-                        "https://media.wired.com/photos/64065938a358b3e8164ac998/2:3/w_1200,h_1800,c_limit/Nomad-DesignLab-Apple-Watch-Accessories-Gear.jpg",
-                      )
+                      copyToClipboard(window.location.href)
                     }}
                   >
                     Copy Product Link
@@ -197,12 +198,11 @@ const SingleProduct = () => {
           <div className="col-12">
             <h4>Description</h4>
             <div className="bg-white p-3">
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto,
-                aspernatur. Temporibus iusto eum, sed reiciendis sit ut itaque
-                asperiores facere odio adipisci. Nobis architecto blanditiis
-                temporibus saepe officiis reiciendis ad.
-              </p>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: productState?.description,
+                }}
+              ></p>
             </div>
           </div>
         </div>
@@ -221,7 +221,7 @@ const SingleProduct = () => {
                       count={5}
                       size={24}
                       edit={false}
-                      value={3}
+                      value={productState?.totalrating}
                       activeColor="#ffd700"
                     />
                     <p className="mb-0">Based on 2 Reviews</p>

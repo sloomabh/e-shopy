@@ -6,7 +6,12 @@ import { config } from "../../utils/axiosconfig"
 
 const getProducts = async () => {
   const response = await axios.get(`${base_url}product/`)
-  return response.data
+  if (response.data) return response.data
+}
+
+const getSingleProduct = async (id) => {
+  const response = await axios.get(`${base_url}product/${id}`)
+  if (response.data) return response.data
 }
 
 const addToWishlist = async (prodId) => {
@@ -15,11 +20,12 @@ const addToWishlist = async (prodId) => {
     { prodId },
     config,
   )
-  return response.data
+  if (response.data) return response.data
 }
 
 const productService = {
   getProducts,
+  getSingleProduct,
   addToWishlist,
 }
 
