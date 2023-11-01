@@ -21,8 +21,8 @@ const SingleProduct = () => {
   const getProductId = location.pathname.split("/")[2]
   const productState = useAppSelector((state) => state.product.product)
 
-  // console.log(productState.images[0].url)
-  const totalRating = productState?.totalrating
+  console.log(productState)
+  // const totalRating = productState?.totalrating
 
   useEffect(() => {
     getAproductFromDb()
@@ -32,11 +32,13 @@ const SingleProduct = () => {
     dispatch(getAProduct(getProductId))
   }
 
+  //const uploadCart = () => {}
+
   const props = {
     width: 400,
     height: 500,
     zoomWidth: 500,
-    img: `${productState?.images[0]?.url}`,
+    img: "https://img.kwcdn.com/product/Fancyalgo/VirtualModelMatting/423fa398cf546b48ce99e31d384ea92a.jpg?imageView2/2/w/500/q/60/format/webp",
   }
 
   const [orderedProduct, setorderdProduct] = useState<Boolean>(true)
@@ -83,7 +85,7 @@ const SingleProduct = () => {
                     count={5}
                     size={24}
                     edit={false}
-                    value={totalRating}
+                    value={2}
                     activeColor="#ffd700"
                   />
                   <p className="mb-0 t-review">( 2 Reviews )</p>
@@ -221,7 +223,7 @@ const SingleProduct = () => {
                       count={5}
                       size={24}
                       edit={false}
-                      value={productState?.totalrating}
+                      value={3}
                       activeColor="#ffd700"
                     />
                     <p className="mb-0">Based on 2 Reviews</p>

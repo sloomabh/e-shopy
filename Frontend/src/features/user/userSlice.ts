@@ -37,6 +37,17 @@ export const getUserProductWishlist = createAsyncThunk(
   },
 )
 
+export const addProdToCart = createAsyncThunk(
+  "user/cart/add",
+  async (cartData, thunkAPI) => {
+    try {
+      return await authService.addToCart(cartData)
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  },
+)
+
 interface InitialState {
   user: any
   CreatedUser: any
@@ -135,38 +146,22 @@ export const authSlice = createSlice({
           state.isLoading = false
         },
       )
-    /* .addCase(getOrders.pending, (state) => {
+      .addCase(addProdToCart.pending, (state) => {
         state.isLoading = true
       })
-      .addCase(getOrders.fulfilled, (state, action) => {
+      .addCase(addProdToCart.fulfilled, (state, action: PayloadAction<any>) => {
         state.isError = false
         state.isLoading = false
         state.isSuccess = true
-        state.orders = action.payload
+        state.cartProduct = action.payload
         state.message = "success"
       })
-      .addCase(getOrders.rejected, (state, action) => {
+      .addCase(addProdToCart.rejected, (state, action: PayloadAction<any>) => {
         state.isError = true
         state.isSuccess = false
         state.message = action.error
         state.isLoading = false
       })
-      .addCase(getOrderByUser.pending, (state) => {
-        state.isLoading = true
-      })
-      .addCase(getOrderByUser.fulfilled, (state, action) => {
-        state.isError = false
-        state.isLoading = false
-        state.isSuccess = true
-        state.orderbyuser = action.payload
-        state.message = "success"
-      })
-      .addCase(getOrderByUser.rejected, (state, action) => {
-        state.isError = true
-        state.isSuccess = false
-        state.message = action.error
-        state.isLoading = false
-      })*/
   },
 })
 
