@@ -13,26 +13,70 @@ import { TbGitCompare } from "react-icons/tb"
 import { AiOutlineHeart } from "react-icons/ai"
 import Container from "../../components/Container"
 import { getAProduct } from "../../features/products/productSlice"
+import { toast } from "react-toastify"
+import { addProdToCart, getUserCart } from "../../features/user/userSlice"
 
 //import { Link } from "react-router-dom"
 const SingleProduct = () => {
   const dispatch = useAppDispatch()
+  const [color, setColor] = useState(null)
+  const [quantity, setQuantity] = useState(1)
+  const [alreadyadded, setAlreadyAdded] = useState(false)
+
   const location = useLocation()
   const getProductId = location.pathname.split("/")[2]
   const productState = useAppSelector((state) => state.product.product)
+  const cartState = useAppSelector((state) => state.auth.cartProducts)
 
-  console.log(productState)
-  // const totalRating = productState?.totalrating
+  const totalRatings = productState?.totalrating
+  //console.log(totalRatings)
+  //console.log(quantity)
+  console.log(cartState)
 
   useEffect(() => {
     getAproductFromDb()
+    getUserCartFromDb()
   }, [])
 
   const getAproductFromDb = () => {
     dispatch(getAProduct(getProductId))
   }
+  const getUserCartFromDb = () => {
+    dispatch(getUserCart())
+  }
 
-  //const uploadCart = () => {}
+  useEffect(() => {
+    for (let index = 0; index < cartState.length; index++) {
+      if (getProductId === cartState[index]?.productId?._id) {
+        setAlreadyAdded(true)
+      }
+    }
+  }, [])
+
+  const uploadCart = () => {
+    if (color === null) {
+      toast.error("Please choose Color")
+      return false
+    } else {
+      dispatch(
+        addProdToCart({
+          productId: productState?._id,
+          quantity,
+          color,
+          price: productState?.price,
+        }),
+      )
+      /*
+      alert(
+        JSON.stringify({
+          productId: productState?._id,
+          quantity,
+          color,
+          price: productState?.price,
+        }),
+      )*/
+    }
+  }
 
   const props = {
     width: 400,
@@ -65,11 +109,12 @@ const SingleProduct = () => {
               </div>
             </div>
             <div className="other-product-images d-flex flex-wrap gap-15">
-              {productState?.images.map((item, index) => (
-                <div key={index}>
-                  <img src={item?.url} alt="watch" className="img-fluid" />
-                </div>
-              ))}
+              {productState?.images &&
+                productState?.images.map((item, index) => (
+                  <div key={index}>
+                    <img src={item?.url} alt="watch" className="img-fluid" />
+                  </div>
+                ))}
             </div>
           </div>
 
@@ -132,28 +177,51 @@ const SingleProduct = () => {
                     </span>
                   </div>
                 </div>
-                <div className="d-flex gap-10  flex-column  mt-2 mb-3">
-                  <h3 className="product-heading">Color :</h3>
-                  <Color />
-                </div>
+                {alreadyadded === false && (
+                  <>
+                    <div className="d-flex gap-10  flex-column  mt-2 mb-3">
+                      <h3 className="product-heading">Color :</h3>
+                      <Color
+                        colorData={productState?.color}
+                        setColor={setColor}
+                      />
+                    </div>
+                  </>
+                )}
                 <div className="d-flex gap-15 flex-row  align-items-center mt-2 mb-3">
-                  <h3 className="product-heading ">Quantity :</h3>
-                  <div className="">
-                    <input
-                      type="number"
-                      name="number"
-                      min={1}
-                      max={10}
-                      className="form-control"
-                      style={{ width: "70px" }}
-                      defaultValue={1}
-                    />
-                  </div>
+                  {alreadyadded === false && (
+                    <>
+                      {" "}
+                      <h3 className="product-heading ">Quantity :</h3>
+                      <div className="">
+                        <input
+                          type="number"
+                          name="number"
+                          min={1}
+                          max={10}
+                          className="form-control"
+                          style={{ width: "70px" }}
+                          defaultValue={1}
+                          id=""
+                          onChange={(e) => {
+                            setQuantity(e.target.value)
+                          }}
+                          value={quantity}
+                        />
+                      </div>
+                    </>
+                  )}
                   <div className="d-flex  justify-content-center align-items-center gap-30 ms-5">
-                    <button className="button border-0" type="submit">
-                      Add To Cart
+                    <button
+                      className="button border-0"
+                      type="button"
+                      onClick={() => {
+                        uploadCart(productState?._id)
+                      }}
+                    >
+                      {alreadyadded ? "Go To Cart" : "Add To Cart"}
                     </button>
-                    <button className="button signup">Buy It Now</button>
+                    {/*  <button className="button signup">Buy It Now</button> */}
                   </div>
                 </div>
                 <div className="d-flex gap-15 flex-row  align-items-center gap-15">

@@ -350,6 +350,23 @@ const saveAddress = asyncHandler(async (req, res, next) => {
 
 // ADD TO CART ***********************************************************
 const userCart = asyncHandler(async (req, res) => {
+  const { productId, color, quantity, price } = req.body;
+  const { _id } = req.user;
+  validateMongoDbId(_id);
+  try {
+    let newCart = await new Cart({
+      userId: _id,
+      productId,
+      color,
+      price,
+      quantity,
+    }).save();
+    res.json(newCart);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+/*const userCart = asyncHandler(async (req, res) => {
   const { cart } = req.body;
   const { _id } = req.user;
   validateMongoDbId(_id);
@@ -383,10 +400,23 @@ const userCart = asyncHandler(async (req, res) => {
   } catch (error) {
     throw new Error(error);
   }
-});
+});*/
 
 // GET USER CART  **************************************************************
 const getUserCart = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  validateMongoDbId(_id);
+  try {
+    const cart = await Cart.find({ userId: _id })
+      .populate("productId")
+      .populate("color");
+    res.json(cart);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+/*const getUserCart = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   validateMongoDbId(_id);
   try {
@@ -397,7 +427,7 @@ const getUserCart = asyncHandler(async (req, res) => {
   } catch (error) {
     throw new Error(error);
   }
-});
+});*/
 
 // empty cart  ******************************************************************
 const emptyCart = asyncHandler(async (req, res) => {
