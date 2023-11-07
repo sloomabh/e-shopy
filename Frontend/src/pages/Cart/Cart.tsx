@@ -7,19 +7,57 @@ import { AiFillDelete } from "react-icons/ai"
 import { Link } from "react-router-dom"
 import Container from "../../components/Container"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import { getUserCart } from "../../features/user/userSlice"
+import {
+  deleteACartProduct,
+  getUserCart,
+  updateACartProduct,
+} from "../../features/user/userSlice"
 
 const Cart = () => {
   const dispatch = useAppDispatch()
-  const userCartState = useAppSelector((state) => state.auth.cartProducts)
+  const [productUpdateDetail, setProductUpdateDetail] = useState(null)
+  const [totalAmount, setTotalAmount] = useState(null)
+  const userCartState = useAppSelector((state) => state?.auth?.cartProducts)
   // console.log(userCartState)
 
   useEffect(() => {
     getUserCartFromDb()
   }, [])
 
+  useEffect(() => {
+    if (productUpdateDetail !== null) {
+      dispatch(
+        updateACartProduct({
+          cartItemId: productUpdateDetail?.cartItemId,
+          quantity: productUpdateDetail?.quantity,
+        }),
+      )
+    }
+    setTimeout(() => {
+      getUserCartFromDb()
+    }, 300)
+  }, [productUpdateDetail])
+
+  useEffect(() => {
+    let sum = 0
+    if (userCartState) {
+      for (let index = 0; index < userCartState?.length; index++) {
+        sum =
+          sum +
+          userCartState[index].quantity * userCartState[index].productId.price
+        setTotalAmount(sum)
+      }
+    }
+  }, [userCartState])
+
   const getUserCartFromDb = () => {
     dispatch(getUserCart())
+  }
+  const deleteACartProductFromDb = (id) => {
+    dispatch(deleteACartProduct(id))
+    setTimeout(() => {
+      getUserCartFromDb()
+    }, 300)
   }
 
   return (
@@ -72,11 +110,26 @@ const Cart = () => {
                           defaultValue={1}
                           style={{ width: "70px" }}
                           id=""
-                          value={item?.quantity}
+                          value={
+                            productUpdateDetail?.quantity
+                              ? productUpdateDetail?.quantity
+                              : item?.quantity
+                          }
+                          onChange={(e) => {
+                            setProductUpdateDetail({
+                              cartItemId: item?._id,
+                              quantity: e.target.value,
+                            })
+                          }}
                         />
                       </div>
                       <div>
-                        <AiFillDelete className="text-danger " />
+                        <AiFillDelete
+                          onClick={() => {
+                            deleteACartProductFromDb(item?._id)
+                          }}
+                          className="text-danger "
+                        />
                       </div>
                     </div>
                     <div className="cart-col-4">
@@ -93,13 +146,15 @@ const Cart = () => {
               <Link to="/product" className="button">
                 Continue To shopping
               </Link>
-              <div className="d-flex flex-column align-items-end">
-                <h4>SubTotal: $ 1000</h4>
-                <p>Taxes and shipping calculated at checkout</p>
-                <Link to="/checkout" className="button">
-                  Checkout
-                </Link>
-              </div>
+              {(totalAmount !== null || totalAmount !== 0) && (
+                <div className="d-flex flex-column align-items-end">
+                  <h4>SubTotal: $ {totalAmount}</h4>
+                  <p>Taxes and shipping calculated at checkout</p>
+                  <Link to="/checkout" className="button">
+                    Checkout
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 import Meta from "../../components/Meta"
 import BreadCrumb from "../../components/BreadCrumb"
@@ -19,19 +19,22 @@ import { addProdToCart, getUserCart } from "../../features/user/userSlice"
 //import { Link } from "react-router-dom"
 const SingleProduct = () => {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const [color, setColor] = useState(null)
   const [quantity, setQuantity] = useState(1)
-  const [alreadyadded, setAlreadyAdded] = useState(false)
+  const [alreadyAdded, setAlreadyAdded] = useState(false)
 
   const location = useLocation()
   const getProductId = location.pathname.split("/")[2]
   const productState = useAppSelector((state) => state.product.product)
   const cartState = useAppSelector((state) => state.auth.cartProducts)
 
-  const totalRatings = productState?.totalrating
+  //const totalRatings = productState?.totalrating
   //console.log(totalRatings)
   //console.log(quantity)
-  console.log(cartState)
+  //console.log(cartState)
+  console.log(productState)
+  console.log(getProductId)
 
   useEffect(() => {
     getAproductFromDb()
@@ -46,7 +49,7 @@ const SingleProduct = () => {
   }
 
   useEffect(() => {
-    for (let index = 0; index < cartState.length; index++) {
+    for (let index = 0; index < cartState?.length; index++) {
       if (getProductId === cartState[index]?.productId?._id) {
         setAlreadyAdded(true)
       }
@@ -66,6 +69,7 @@ const SingleProduct = () => {
           price: productState?.price,
         }),
       )
+      navigate("/cart")
       /*
       alert(
         JSON.stringify({
@@ -177,7 +181,7 @@ const SingleProduct = () => {
                     </span>
                   </div>
                 </div>
-                {alreadyadded === false && (
+                {alreadyAdded === false && (
                   <>
                     <div className="d-flex gap-10  flex-column  mt-2 mb-3">
                       <h3 className="product-heading">Color :</h3>
@@ -189,7 +193,7 @@ const SingleProduct = () => {
                   </>
                 )}
                 <div className="d-flex gap-15 flex-row  align-items-center mt-2 mb-3">
-                  {alreadyadded === false && (
+                  {alreadyAdded === false && (
                     <>
                       {" "}
                       <h3 className="product-heading ">Quantity :</h3>
@@ -211,15 +215,23 @@ const SingleProduct = () => {
                       </div>
                     </>
                   )}
-                  <div className="d-flex  justify-content-center align-items-center gap-30 ms-5">
+                  <div
+                    className={
+                      alreadyAdded
+                        ? "ms-0"
+                        : "ms-5" +
+                          "d-flex  justify-content-center align-items-center gap-30 ms-5"
+                    }
+                  >
                     <button
                       className="button border-0"
                       type="button"
                       onClick={() => {
-                        uploadCart(productState?._id)
+                        //uploadCart(productState?._id)
+                        alreadyAdded ? navigate("/cart") : uploadCart()
                       }}
                     >
-                      {alreadyadded ? "Go To Cart" : "Add To Cart"}
+                      {alreadyAdded ? "Go To Cart" : "Add To Cart"}
                     </button>
                     {/*  <button className="button signup">Buy It Now</button> */}
                   </div>

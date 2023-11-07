@@ -1,7 +1,7 @@
 import Meta from "../../components/Meta"
 import BreadCrumb from "../../components/BreadCrumb"
 
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Container from "../../components/Container"
 import CostumInput from "../../components/CostumInput"
 import { useFormik } from "formik"
@@ -20,6 +20,9 @@ let loginSchema = yup.object().shape({
 
 const Login = () => {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
+  const authState = useAppSelector((state) => state?.auth)
 
   const formik = useFormik({
     initialValues: {
@@ -30,6 +33,10 @@ const Login = () => {
     onSubmit: (values) => {
       //alert(JSON.stringify(values))
       dispatch(loginUser(values))
+
+      if (authState.isSuccess) {
+        navigate("/")
+      }
     },
   })
 

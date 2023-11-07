@@ -268,7 +268,7 @@ const OurStore = () => {
                       onClick={() => {
                         handleImageClick(3)
                       }}
-                      src="./src/images/gr4.svg"
+                      src="../src/images/gr4.svg"
                       className="d-block img-fluid"
                       alt="grid"
                     />
@@ -276,7 +276,7 @@ const OurStore = () => {
                       onClick={() => {
                         handleImageClick(4)
                       }}
-                      src="./src/images/gr3.svg"
+                      src="../src/images/gr3.svg"
                       className="d-block img-fluid"
                       alt="grid"
                     />
@@ -284,7 +284,7 @@ const OurStore = () => {
                       onClick={() => {
                         handleImageClick(6)
                       }}
-                      src="./src/images/gr2.svg"
+                      src="../src/images/gr2.svg"
                       className="d-block img-fluid"
                       alt="grid"
                     />
@@ -292,7 +292,7 @@ const OurStore = () => {
                       onClick={() => {
                         handleImageClick(12)
                       }}
-                      src="./src/images/gr.svg"
+                      src="../src/images/gr.svg"
                       className="d-block img-fluid"
                       alt="grid"
                     />

@@ -20,6 +20,7 @@ import TermsAndConditions from "./pages/TermsAndConditions/TermsAndConditions"
 import SingleProduct from "./pages/SingleProduct/SingleProduct"
 import Cart from "./pages/Cart/Cart"
 import CheckOut from "./pages/CheckOut/CheckOut"
+import { PrivateRoutes } from "./routing/PrivateRoutes"
 
 function App() {
   return (
@@ -33,7 +34,14 @@ function App() {
             <Route path="product" element={<OurStore />} />
             <Route path="product/:id" element={<SingleProduct />} />
             <Route path="blogs" element={<Blogs />} />
-            <Route path="cart" element={<Cart />} />
+            <Route
+              path="cart"
+              element={
+                <PrivateRoutes>
+                  <Cart />
+                </PrivateRoutes>
+              }
+            />
             <Route path="checkout" element={<CheckOut />} />
             <Route path="blog/:id" element={<SingleBlog />} />
             <Route path="compare-product" element={<CompareProduct />} />

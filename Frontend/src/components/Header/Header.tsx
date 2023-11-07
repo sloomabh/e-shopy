@@ -1,4 +1,5 @@
 import { NavLink, Link } from "react-router-dom"
+import { useState, useEffect } from "react"
 import { BsSearch } from "react-icons/bs"
 import "./Header-style.css"
 import compare from "/compare.svg"
@@ -6,7 +7,25 @@ import wishlist from "/wishlist.svg"
 import user from "/user.svg"
 import cart from "/cart.svg"
 import menu from "/menu.svg"
+
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
+
 const Header = () => {
+  const dispatch = useAppDispatch()
+  const [total, setTotal] = useState(null)
+  const cartState = useAppSelector((state) => state?.auth?.cartProducts)
+  const authState = useAppSelector((state) => state?.auth)
+  //console.log(total)
+
+  useEffect(() => {
+    let sum = 0
+
+    for (let index = 0; index < cartState?.length; index++) {
+      sum = sum + cartState[index].quantity * cartState[index].productId.price
+      setTotal(sum)
+    }
+  }, [cartState])
+
   return (
     <>
       <header className="header-top-strip py-2  ">
@@ -77,12 +96,18 @@ const Header = () => {
                 <div>
                   <Link
                     className="d-flex align-items-center gap-10 text-white"
-                    to="/login"
+                    to={authState?.user === null ? "/login" : ""}
                   >
                     <img src={user} alt="user" />
-                    <p className="mb-0">
-                      Log In <br /> My account
-                    </p>
+                    {authState?.user === null ? (
+                      <p className="mb-0">
+                        Log In <br /> My account
+                      </p>
+                    ) : (
+                      <p className="mb-0">
+                        Welcome , <br /> {authState?.user?.firstname}
+                      </p>
+                    )}
                   </Link>
                 </div>
                 <div>
@@ -92,8 +117,10 @@ const Header = () => {
                   >
                     <img src={cart} alt="cart" />
                     <div className="d-flex flex-column">
-                      <span className="badge bg-white text-dark">0</span>
-                      <p className="mb-0">$ 500</p>
+                      <span className="badge bg-white text-dark">
+                        {cartState?.length ? cartState?.length : 0}
+                      </span>
+                      <p className="mb-0">$ {total ? total : 0}</p>
                     </div>
                   </Link>
                 </div>

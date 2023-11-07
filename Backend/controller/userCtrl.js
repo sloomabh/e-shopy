@@ -429,7 +429,70 @@ const getUserCart = asyncHandler(async (req, res) => {
   }
 });*/
 
-// empty cart  ******************************************************************
+//  Remove product fromCart   *******************
+const removeProductFromCart = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { cartItemId } = req.params;
+  validateMongoDbId(_id);
+
+  try {
+    const deleteProductFromCart = await Cart.deleteOne({
+      userId: _id,
+      _id: cartItemId,
+    });
+
+    res.json(deleteProductFromCart);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+//  update product Quantity in Cart   *******************
+const updateProductQuantityFromCart = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { cartItemId, newQuantity } = req.params;
+  validateMongoDbId(_id);
+
+  try {
+    const cartItem = await Cart.findOne({
+      userId: _id,
+      _id: cartItemId,
+    });
+    cartItem.quantity = newQuantity;
+    cartItem.save();
+    res.json(cartItem);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const createOrder = asyncHandler(async (req, res) => {
+  const {
+    shippingInfo,
+    orderItems,
+    totalPrice,
+    totalPriceAfterDiscount,
+    paymentInfo,
+  } = req.body;
+  const { _id } = req.user;
+
+  try {
+    const order = await Order.create({
+      user: _id,
+      shippingInfo,
+      orderItems,
+      totalPrice,
+      totalPriceAfterDiscount,
+      paymentInfo,
+    });
+
+    res.json({ order, success: true });
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+/*
+// empty cart  *****************************************************************
 const emptyCart = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   console.log(_id);
@@ -444,7 +507,7 @@ const emptyCart = asyncHandler(async (req, res) => {
   }
 });
 
-// APPLY FOR COUPON **************************/////************************** */
+// APPLY FOR COUPON **************************************************
 const applyCoupon = asyncHandler(async (req, res) => {
   const { coupon } = req.body;
   const { _id } = req.user;
@@ -578,7 +641,7 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
   } catch (error) {
     throw new Error(error);
   }
-});
+});*/
 
 module.exports = {
   createUser,
@@ -599,11 +662,14 @@ module.exports = {
   saveAddress,
   userCart,
   getUserCart,
-  emptyCart,
+  /* emptyCart,
   applyCoupon,
   createOrder,
   getAllOrders,
   getOrders,
   getOrderByUserId,
-  updateOrderStatus,
+  updateOrderStatus,*/
+  createOrder,
+  removeProductFromCart,
+  updateProductQuantityFromCart,
 };
