@@ -47,6 +47,29 @@ const updateProductFromCart = async (cartDetail) => {
   if (response.data) return response.data
 }
 
+const updateUser = async (data) => {
+  const response = await axios.put(`${base_url}user/edit-user`, data, config)
+  if (response.data) return response.data
+}
+
+const forgotPassToken = async (data) => {
+  const response = await axios.post(
+    `${base_url}user/forget-password-token`,
+    data,
+    config,
+  )
+  if (response.data) return response.data
+}
+
+const resetPassToken = async (data) => {
+  const response = await axios.put(
+    `${base_url}user/reset-password/${data.token}`,
+    { password: data?.password },
+    config,
+  )
+  if (response.data) return response.data
+}
+
 const authService = {
   register,
   login,
@@ -55,6 +78,9 @@ const authService = {
   getCart,
   removeProductFromCart,
   updateProductFromCart,
+  updateUser,
+  forgotPassToken,
+  resetPassToken,
 }
 
 export default authService

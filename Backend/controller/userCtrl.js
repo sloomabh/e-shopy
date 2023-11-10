@@ -30,7 +30,7 @@ const createUser = asyncHandler(async (req, res) => {
   }
 });
 
-// Login a user***************************************************************************
+// Login a user************************************************************
 const loginUserCtrl = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   // console.log(email, password);
@@ -169,7 +169,7 @@ const getaUser = asyncHandler(async (req, res) => {
   }
 });
 
-// Delete a single user *************************************************************
+// Delete a single user ***********************************************************
 
 const deleteaUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -185,12 +185,12 @@ const deleteaUser = asyncHandler(async (req, res) => {
   }
 });
 
-// Update a user*********************************************************************
+// Update a user*******************************************************************
 
 const updatedUser = asyncHandler(async (req, res) => {
   const { id } = req.user;
 
-  validateMongoDbId(_id);
+  validateMongoDbId(id);
 
   try {
     const updatedUser = await User.findByIdAndUpdate(
@@ -211,7 +211,7 @@ const updatedUser = asyncHandler(async (req, res) => {
   }
 });
 
-//Block user *****************************************************************************
+//Block user **********************************************************************
 const blockUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongoDbId(id);
@@ -282,7 +282,7 @@ const forgotPasswordToken = asyncHandler(async (req, res) => {
   try {
     const token = await user.createPasswordResetToken();
     await user.save();
-    const resetURL = `Hi, Please follow this link to reset Your Password. This link is valid till 10 minutes from now. <a href='http://localhost:5000/api/user/reset-password/${token}'>Click Here</>`;
+    const resetURL = `Hi, Please follow this link to reset Your Password. This link is valid till 10 minutes from now. <a href='http://localhost:5173/reset-password/${token}'>Click Here</>`;
     const data = {
       to: email,
       text: "Hey User",

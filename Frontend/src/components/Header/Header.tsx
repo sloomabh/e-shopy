@@ -1,4 +1,4 @@
-import { NavLink, Link } from "react-router-dom"
+import { NavLink, Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { BsSearch } from "react-icons/bs"
 import "./Header-style.css"
@@ -7,15 +7,27 @@ import wishlist from "/wishlist.svg"
 import user from "/user.svg"
 import cart from "/cart.svg"
 import menu from "/menu.svg"
-
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { getAllProducts } from "../../features/products/productSlice"
+import { Typeahead } from "react-bootstrap-typeahead"
 
 const Header = () => {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const [total, setTotal] = useState(null)
+  const [productOpt, setProductOpt] = useState([])
   const cartState = useAppSelector((state) => state?.auth?.cartProducts)
+  const productState = useAppSelector((state) => state?.product?.product)
   const authState = useAppSelector((state) => state?.auth)
-  //console.log(total)
+
+  useEffect(() => {
+    dispatch(getAllProducts())
+  }, [])
+  // console.log(productState)
+  const handelLogout = () => {
+    localStorage.clear()
+    window.location.reload()
+  }
 
   useEffect(() => {
     let sum = 0
@@ -25,6 +37,38 @@ const Header = () => {
       setTotal(sum)
     }
   }, [cartState])
+
+  //const options = range(0, 1000).map((o) => `Item ${o}`)
+
+  /* useEffect(() => {
+    if (productState) {
+      let data = []
+      for (let index = 0; index < productState?.length; index++) {
+        const element = productState[index]
+        data.push({ id: index, prod: element?._id, name: element?.title })
+      }
+      console.log("Data:", data)
+      setProductOpt(data)
+    }
+  }, [])*/
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(getAllProducts())
+      // Now, productState should be updated
+      if (productState) {
+        let data = []
+        for (let index = 0; index < productState?.length; index++) {
+          const element = productState[index]
+          data.push({ id: index, prod: element?._id, name: element?.title })
+        }
+        console.log("Data:", data)
+        setProductOpt(data)
+      }
+    }
+
+    fetchData()
+  }, [dispatch])
 
   return (
     <>
@@ -57,12 +101,16 @@ const Header = () => {
             </div>
             <div className="col-4">
               <div className="input-group ">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search Product Here..."
-                  aria-label="Search Product Here..."
-                  aria-describedby="basic-addon2"
+                <Typeahead
+                  id="pagination-example"
+                  onPaginate={() => console.log("Results paginated")}
+                  onChange={(selected) => {
+                    navigate(`/product/${selected[0].prod}`)
+                  }}
+                  options={productOpt}
+                  // paginate={paginate}
+                  labelKey={"name"}
+                  placeholder="Search for products Here..."
                 />
                 <span className="input-group-text p-3" id="basic-addon2">
                   <BsSearch className="fs-5 " />
@@ -96,7 +144,7 @@ const Header = () => {
                 <div>
                   <Link
                     className="d-flex align-items-center gap-10 text-white"
-                    to={authState?.user === null ? "/login" : ""}
+                    to={authState?.user === null ? "/login" : "/my-profile"}
                   >
                     <img src={user} alt="user" />
                     {authState?.user === null ? (
@@ -179,6 +227,13 @@ const Header = () => {
                     <NavLink to="/product">Our Store</NavLink>
                     <NavLink to="/blogs">Blogs</NavLink>
                     <NavLink to="/contact">Contact</NavLink>
+                    <button
+                      onClick={handelLogout}
+                      className="border border-0 bg-transparent text-white text-uppercase"
+                      type="button"
+                    >
+                      Logout
+                    </button>
                   </div>
                 </div>
               </div>

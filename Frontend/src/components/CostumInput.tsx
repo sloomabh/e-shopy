@@ -6,8 +6,9 @@ type CostumInputProps = {
   placeholder: string
   classname?: string
   value?: string
-  onChng?: any
-  onBlr?: string
+  onChng?: React.ChangeEventHandler<HTMLInputElement>
+  onBlr?: React.FocusEventHandler<HTMLInputElement>
+  disabled?: boolean
 }
 const CostumInput = ({
   type,
@@ -17,6 +18,7 @@ const CostumInput = ({
   value,
   onChng,
   onBlr,
+  disabled,
 }: CostumInputProps) => {
   return (
     <div>
@@ -28,6 +30,7 @@ const CostumInput = ({
         value={value}
         onChange={onChng}
         onBlur={onBlr}
+        disabled={disabled}
       />
     </div>
   )

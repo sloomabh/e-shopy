@@ -22,6 +22,7 @@ import Cart from "./pages/Cart/Cart"
 import CheckOut from "./pages/CheckOut/CheckOut"
 import { PrivateRoutes } from "./routing/PrivateRoutes"
 import { OpenRoutes } from "./routing/OpenRoutes "
+import Profile from "./pages/Profile/Profile"
 
 function App() {
   return (
@@ -43,7 +44,14 @@ function App() {
                 </PrivateRoutes>
               }
             />
-            <Route path="checkout" element={<CheckOut />} />
+            <Route
+              path="checkout"
+              element={
+                <PrivateRoutes>
+                  <CheckOut />
+                </PrivateRoutes>
+              }
+            />
             <Route path="blog/:id" element={<SingleBlog />} />
             <Route path="compare-product" element={<CompareProduct />} />
             <Route
@@ -54,14 +62,17 @@ function App() {
                 </PrivateRoutes>
               }
             />
+
             <Route
-              path="login"
+              path="my-profile"
               element={
-                <OpenRoutes>
-                  <Login />
-                </OpenRoutes>
+                <PrivateRoutes>
+                  <Profile />
+                </PrivateRoutes>
               }
             />
+
+            <Route path="login" element={<Login />} />
             <Route path="logout" element={<Logout />} />
             <Route
               path="signup"
@@ -72,7 +83,7 @@ function App() {
               }
             />
             <Route path="forgot-password" element={<ForgotPassword />} />
-            <Route path="reset-password" element={<ResetPassword />} />
+            <Route path="reset-password/:token" element={<ResetPassword />} />
             <Route path="privacy-policy" element={<PrivacyPolicy />} />
             <Route path="refund-policy" element={<RefundPolicy />} />
             <Route path="shipping-policy" element={<ShippingPolicy />} />

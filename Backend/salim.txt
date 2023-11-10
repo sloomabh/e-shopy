@@ -1,1 +1,4 @@
  - cloudinary for storing pictures : https://console.cloudinary.com/pm/c-39c6309f1297afc3a5cfba1c6f172a/developer-dashboard 
+
+
+ - nodemailer :   https://ethereal.email/
