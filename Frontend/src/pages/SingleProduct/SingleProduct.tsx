@@ -23,10 +23,12 @@ const SingleProduct = () => {
   const [color, setColor] = useState(null)
   const [quantity, setQuantity] = useState(1)
   const [alreadyAdded, setAlreadyAdded] = useState(false)
+  const [popularProduct, setpopularProduct] = useState([])
 
   const location = useLocation()
   const getProductId = location.pathname.split("/")[2]
   const productState = useAppSelector((state) => state.product.product)
+  //const cartState = useAppSelector((state) => state.auth.cartProducts)
   const cartState = useAppSelector((state) => state.auth.cartProducts)
 
   //const totalRatings = productState?.totalrating
@@ -100,10 +102,22 @@ const SingleProduct = () => {
     textField.remove()
   }
 
+  useEffect(() => {
+    let data = []
+    for (let index = 0; index < productState.length; index++) {
+      const element = productState[index]
+      if (element.tags === "popular") {
+        data.push(element)
+      }
+      setpopularProduct(data)
+    }
+  }, [productState])
+
+  console.log(popularProduct)
   return (
     <>
       <Meta title={"Product name "} />
-      <BreadCrumb title="Prioduct name" />
+      <BreadCrumb title="Product name" />
       <Container classI="main-product-wrapper py-5 home-wrapper-2 ">
         <div className="row">
           <div className="col-6">
@@ -376,8 +390,7 @@ const SingleProduct = () => {
           </div>
         </div>
         <div className="row">
-          <ProductCard />
-          <ProductCard />
+          <ProductCard data={popularProduct} />
         </div>
       </Container>
     </>

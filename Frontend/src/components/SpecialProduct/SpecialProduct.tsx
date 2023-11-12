@@ -11,7 +11,7 @@ const SpecialProduct = ({
   quantity,
   id,
 }) => {
-  console.log(quantity / quantity + sold * 100)
+  // console.log(quantity / quantity + sold * 100)
   return (
     <div className="col-6 mb-3">
       <div className="special-product-card">

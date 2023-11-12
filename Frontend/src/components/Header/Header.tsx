@@ -40,7 +40,7 @@ const Header = () => {
 
   //const options = range(0, 1000).map((o) => `Item ${o}`)
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (productState) {
       let data = []
       for (let index = 0; index < productState?.length; index++) {
@@ -50,9 +50,9 @@ const Header = () => {
       console.log("Data:", data)
       setProductOpt(data)
     }
-  }, [])*/
+  }, [])
 
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchData = async () => {
       await dispatch(getAllProducts())
       // Now, productState should be updated
@@ -68,7 +68,7 @@ const Header = () => {
     }
 
     fetchData()
-  }, [dispatch])
+  }, [dispatch])*/
 
   return (
     <>
@@ -110,6 +110,7 @@ const Header = () => {
                   options={productOpt}
                   // paginate={paginate}
                   labelKey={"name"}
+                  minLength={2}
                   placeholder="Search for products Here..."
                 />
                 <span className="input-group-text p-3" id="basic-addon2">
