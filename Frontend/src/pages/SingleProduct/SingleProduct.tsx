@@ -12,7 +12,11 @@ import Color from "../../components/Color/Color"
 import { TbGitCompare } from "react-icons/tb"
 import { AiOutlineHeart } from "react-icons/ai"
 import Container from "../../components/Container"
-import { getAProduct } from "../../features/products/productSlice"
+import {
+  addRating,
+  getAProduct,
+  getAllProducts,
+} from "../../features/products/productSlice"
 import { toast } from "react-toastify"
 import { addProdToCart, getUserCart } from "../../features/user/userSlice"
 
@@ -35,12 +39,13 @@ const SingleProduct = () => {
   //console.log(totalRatings)
   //console.log(quantity)
   //console.log(cartState)
-  console.log(productState)
-  console.log(getProductId)
+  // console.log(productState)
+  // console.log(getProductId)
 
   useEffect(() => {
     getAproductFromDb()
     getUserCartFromDb()
+    dispatch(getAllProducts())
   }, [])
 
   const getAproductFromDb = () => {
@@ -113,11 +118,35 @@ const SingleProduct = () => {
     }
   }, [productState])
 
-  console.log(popularProduct)
+  // console.log(popularProduct)
+
+  const [star, setStar] = useState(null)
+  const [comment, setComment] = useState(null)
+
+  const addRatingToProduct = () => {
+    if (star === null) {
+      toast.error("Please add star rating")
+      return false
+      console.log("add start")
+    } else if (comment === null) {
+      toast.error("Please write a review about the product")
+      console.log("add comment")
+      return false
+    } else {
+      dispatch(
+        addRating({ star: star, comment: comment, prodId: getProductId }),
+      )
+      setTimeout(() => {
+        getAproductFromDb()
+      }, 100)
+    }
+    return false
+  }
+
   return (
     <>
       <Meta title={"Product name "} />
-      <BreadCrumb title="Product name" />
+      <BreadCrumb title={productState?.title} />
       <Container classI="main-product-wrapper py-5 home-wrapper-2 ">
         <div className="row">
           <div className="col-6">
@@ -333,50 +362,60 @@ const SingleProduct = () => {
               </div>
               <div className="review-form py-4 ">
                 <h4>Write a review</h4>
-                <form action="" className="d-flex flex-column gap-15">
-                  <div>
-                    <ReactStars
-                      count={5}
-                      size={24}
-                      edit={true}
-                      value={3}
-                      activeColor="#ffd700"
-                    />
-                  </div>
-                  <div>
-                    <textarea
-                      name=""
-                      id=""
-                      cols={30}
-                      rows={4}
-                      className="w-100 form-control"
-                      placeholder="Comments"
-                    ></textarea>
-                  </div>
-                  <div className="d-flex justify-content-end">
-                    <button className="button border-0">Submit</button>
-                  </div>
-                </form>
-              </div>
-              <div className="reviews mt-3  ">
-                <div className="review">
-                  <div className="d-flex gap-10 align-items-center">
-                    <h6 className="mb-8">Navdeep</h6>
-                    <ReactStars
-                      count={5}
-                      size={24}
-                      edit={false}
-                      value={3}
-                      activeColor="#ffd700"
-                    />
-                  </div>
-                  <p className="mt-3">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Neque officiis quaerat unde nostrum nam pariatur sapiente,
-                    aperiam, tempore sed reiciendis, ratione qui voluptatum
-                    vitae asperiores ipsam voluptates. Ipsam, ab eos.
-                  </p>
+
+                <div>
+                  <ReactStars
+                    count={5}
+                    size={24}
+                    edit={true}
+                    value={3}
+                    activeColor="#ffd700"
+                    onChange={(e) => {
+                      setStar(e)
+                    }}
+                  />
                 </div>
+                <div>
+                  <textarea
+                    name=""
+                    id=""
+                    cols={30}
+                    rows={4}
+                    className="w-100 form-control"
+                    placeholder="Comments"
+                    onChange={(e) => {
+                      setComment(e.target.value)
+                    }}
+                  ></textarea>
+                </div>
+                <div className="d-flex justify-content-end mt-3">
+                  <button
+                    className="button border-0"
+                    onClick={addRatingToProduct}
+                    type="button"
+                  >
+                    Submit Review
+                  </button>
+                </div>
+              </div>
+              <div className="reviews mt-4  ">
+                {productState &&
+                  productState.ratings?.map((item, index) => {
+                    return (
+                      <div key={index} className="review">
+                        <div className="d-flex gap-10 align-items-center">
+                          <ReactStars
+                            count={5}
+                            size={24}
+                            edit={false}
+                            value={item?.star}
+                            activeColor="#ffd700"
+                          />
+                        </div>
+                        <p className="mt-3">{item?.comment}</p>
+                      </div>
+                    )
+                  })}
               </div>
             </div>
           </div>

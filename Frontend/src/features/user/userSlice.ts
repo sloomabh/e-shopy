@@ -245,7 +245,7 @@ export const authSlice = createSlice({
         state.cartProducts = action.payload
         state.message = "success"
         if (state.isSuccess === true) {
-          toast.info("Product added to Cart")
+          toast.success("Product added to Cart")
         }
       })
       .addCase(getUserCart.rejected, (state, action: PayloadAction<any>) => {
@@ -386,7 +386,7 @@ export const authSlice = createSlice({
           state.message = "success"
           state.pass = action.payload
           if (state.isSuccess === true) {
-            toast.info("Password Updated  successufully")
+            toast.success("Password Updated  successufully")
           }
         },
       )

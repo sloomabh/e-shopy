@@ -4,8 +4,15 @@ import { base_url } from "../../utils/baseUrl"
 import { config } from "../../utils/axiosconfig"
 //import { ProductType } from "./productType.dt"
 
-const getProducts = async () => {
-  const response = await axios.get(`${base_url}product/`)
+const getProducts = async (data) => {
+  console.log(data)
+  const response = await axios.get(
+    `${base_url}product?${data?.brand ? `brand=${data?.brand}&&` : ""}${
+      data?.tag ? `tag=${data?.tag}&&` : ""
+    }${data?.category ? `category=${data?.category}&&` : ""}${
+      data?.minPrice ? `minPrice=${data?.minPrice}&&` : ""
+    }${data?.maxPrice ? `maxPrice=${data?.maxPrice}&&` : ""}`,
+  )
   if (response.data) return response.data
 }
 
@@ -23,10 +30,16 @@ const addToWishlist = async (prodId) => {
   if (response.data) return response.data
 }
 
+const rateProduct = async (data) => {
+  const response = await axios.put(`${base_url}product/rating`, data, config)
+  if (response.data) return response.data
+}
+
 const productService = {
   getProducts,
   getSingleProduct,
   addToWishlist,
+  rateProduct,
 }
 
 export default productService

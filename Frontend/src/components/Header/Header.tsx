@@ -8,7 +8,10 @@ import user from "/user.svg"
 import cart from "/cart.svg"
 import menu from "/menu.svg"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import { getAllProducts } from "../../features/products/productSlice"
+import {
+  getAProduct,
+  getAllProducts,
+} from "../../features/products/productSlice"
 import { Typeahead } from "react-bootstrap-typeahead"
 
 const Header = () => {
@@ -47,7 +50,7 @@ const Header = () => {
         const element = productState[index]
         data.push({ id: index, prod: element?._id, name: element?.title })
       }
-      console.log("Data:", data)
+      //  console.log("Data:", data)
       setProductOpt(data)
     }
   }, [])
@@ -105,7 +108,8 @@ const Header = () => {
                   id="pagination-example"
                   onPaginate={() => console.log("Results paginated")}
                   onChange={(selected) => {
-                    navigate(`/product/${selected[0].prod}`)
+                    navigate(`/product/${selected[0]?.prod}`)
+                    dispatch(getAProduct(selected[0]?.prod))
                   }}
                   options={productOpt}
                   // paginate={paginate}
